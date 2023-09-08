@@ -4,6 +4,7 @@ import monitoring_ozone.model.Product;
 import monitoring_ozone.service.ProductService;
 import monitoring_ozone.service.ScannerPageService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,15 +29,14 @@ public class ProductsController {
 
     @PostMapping("/add")
     public String getAndSaveProduct(@ModelAttribute("productForm") Product prod) {
-
-        String url = prod.getUrl();
-        Product product = scannerPageService.getProduct(url);
+        Product product = scannerPageService.getProduct(prod.getUrl());
         productService.addProduct(product);
-        return "redirect:/add";
+        return "redirect:/products/add";
     }
 
     @GetMapping("/all")
-    public String allProducts() {
+    public String allProducts(Model model) {
+        model.addAttribute("products", productService.getAll());
         return "allProducts";
     }
 }

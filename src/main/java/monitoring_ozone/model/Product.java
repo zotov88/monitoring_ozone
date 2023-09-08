@@ -24,6 +24,8 @@ public class Product {
     @Column(length = 1024)
     private String url;
 
+    private Integer price;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Story> stories;
 }

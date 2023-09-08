@@ -4,6 +4,8 @@ import monitoring_ozone.model.Product;
 import monitoring_ozone.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -15,5 +17,9 @@ public class ProductService {
 
     public void addProduct(Product product) {
         repository.save(product);
+    }
+
+    public List<Product> getAll() {
+        return repository.findAll();
     }
 }
