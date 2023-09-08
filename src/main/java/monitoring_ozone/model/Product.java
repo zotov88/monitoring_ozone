@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Product {
 
     private String name;
 
+    @Column(length = 1024)
     private String url;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.REMOVE)

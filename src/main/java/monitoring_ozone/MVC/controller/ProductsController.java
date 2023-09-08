@@ -1,0 +1,42 @@
+package monitoring_ozone.MVC.controller;
+
+import monitoring_ozone.model.Product;
+import monitoring_ozone.service.ProductService;
+import monitoring_ozone.service.ScannerPageService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/products")
+public class ProductsController {
+
+    private final ProductService productService;
+    private final ScannerPageService scannerPageService;
+
+    public ProductsController(ProductService productService, ScannerPageService scannerPageService) {
+        this.productService = productService;
+        this.scannerPageService = scannerPageService;
+    }
+
+    @GetMapping("/add")
+    public String startPage() {
+        return "addProduct";
+    }
+
+    @PostMapping("/add")
+    public String getAndSaveProduct(@ModelAttribute("productForm") Product prod) {
+
+        String url = prod.getUrl();
+        Product product = scannerPageService.getProduct(url);
+        productService.addProduct(product);
+        return "redirect:/add";
+    }
+
+    @GetMapping("/all")
+    public String allProducts() {
+        return "allProducts";
+    }
+}
