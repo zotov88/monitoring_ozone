@@ -5,40 +5,39 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Продукты</title>
+    <title>История</title>
 </head>
 <body>
 <div layout:fragment="content">
 
     <form method="POST" th:action="@{/products/all}">
-        <h3 align="center">Продукты</h3>
+        <h3 align="center">История цен</h3>
         <table class="table table-bordered table-sm mt-3">
             <thead>
             <tr>
-                <th scope="col">Название</th>
                 <th scope="col">Цена</th>
-                <th scope="col">Ссылка</th>
+                <th scope="col">Дата</th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="p : ${products}">
-                <td th:text="${p.getName()}"></td>
+            <tr th:each="p : ${productList}">
                 <td th:text="${p.getPrice()}"></td>
-                <td><a th:href="@{${p.getUrl()}}">Ссылка</a></td>
-                <td>
-                    <a class="btn btn-sm btn-info"
-                       th:href="'/story/' + ${p.getId()}">История</a>
-                </td>
+                <td th:text="${p.getDate()}"></td>
+<!--                <td><a th:href="@{${p.getUrl()}}">Ссылка</a></td>-->
+<!--                <td>-->
+<!--                    <a class="btn btn-sm btn-info"-->
+<!--                       th:href="'/story/' + ${p.getId()}">История</a>-->
+<!--                </td>-->
             </tr>
             </tbody>
         </table>
-        <div class="mt1-l">
-            <br>
-            <div class="vk">
-                <button type="submit">Актуализировать</button>
-            </div>
-        </div>
+<!--        <div class="mt1-l">-->
+<!--            <br>-->
+<!--            <div class="vk">-->
+<!--                <button type="submit">Актуализировать</button>-->
+<!--            </div>-->
+<!--        </div>-->
     </form>
 
 </div>

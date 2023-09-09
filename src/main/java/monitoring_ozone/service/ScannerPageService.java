@@ -1,19 +1,19 @@
 package monitoring_ozone.service;
 
-import monitoring_ozone.ScannerPage;
+import monitoring_ozone.ScannerPageWithFirefox;
 import monitoring_ozone.model.Product;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ScannerPageService {
 
-    private final ScannerPage scannerPage;
+    private final ScannerPageWithFirefox scannerPageWithFirefox;
 
-    public ScannerPageService(ScannerPage scannerPage) {
-        this.scannerPage = scannerPage;
+    public ScannerPageService(ScannerPageWithFirefox scannerPageWithFirefox) {
+        this.scannerPageWithFirefox = scannerPageWithFirefox;
     }
 
     public Product getProduct(String url) {
-        return scannerPage.getProduct(url);
+        return scannerPageWithFirefox.getProduct(url);
     }
 }

@@ -1,4 +1,6 @@
-package monitoring_ozone.model;
+package monitoring_ozone;
+
+import monitoring_ozone.model.Product;
 
 public interface TurningProduct {
 

@@ -2,7 +2,6 @@ package monitoring_ozone;
 
 import monitoring_ozone.constants.XPathConstants;
 import monitoring_ozone.model.Product;
-import monitoring_ozone.model.TurningProduct;
 import monitoring_ozone.utils.StringToInteger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ScannerPage implements TurningProduct {
+public class ScannerPageWithFirefox implements TurningProduct {
 
     @Override
     public Product getProduct(String url) {
