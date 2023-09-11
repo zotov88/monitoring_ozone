@@ -36,15 +36,6 @@ public class StoryController {
         for (Story story : storyService.getStoryList(id)) {
             map.put(story.getDate(), story.getPrice());
         }
-        map.put(LocalDate.of(2023, 9, 13), 15400);
-        map.put(LocalDate.of(2023, 9, 16), 13110);
-        map.put(LocalDate.of(2023, 9, 17), 11110);
-        map.put(LocalDate.of(2023, 9, 18), 17110);
-        map.put(LocalDate.of(2023, 9, 19), 12110);
-        map.put(LocalDate.of(2023, 9, 20), 10110);
-        map.put(LocalDate.of(2023, 9, 21), 11110);
-        map.put(LocalDate.of(2023, 9, 22), 16110);
-        map.put(LocalDate.of(2023, 11, 22), 10110);
         Integer maxVal = Collections.max(map.values());
         Integer minVal = Collections.min(map.values());
         model.addAttribute("keySet", map.keySet());

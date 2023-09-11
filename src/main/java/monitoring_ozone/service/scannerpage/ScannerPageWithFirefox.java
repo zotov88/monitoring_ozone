@@ -1,6 +1,6 @@
 package monitoring_ozone.service.scannerpage;
 
-import monitoring_ozone.constants.CSSConstants;
+import monitoring_ozone.constants.CSSSelectorConstants;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.utils.StringToInteger;
 import org.openqa.selenium.By;
@@ -17,8 +17,8 @@ public class ScannerPageWithFirefox implements TurningProduct {
         FirefoxDriver driver = new FirefoxDriver();
         driver.get(url);
         Product product = new Product();
-        product.setName(getWebelement(CSSConstants.titles, driver).getText());
-        product.setPrice(StringToInteger.parseInt(getWebelement(CSSConstants.prices, driver).getText()));
+        product.setName(getWebelement(CSSSelectorConstants.titles, driver).getText());
+        product.setPrice(StringToInteger.parseInt(getWebelement(CSSSelectorConstants.prices, driver).getText()));
         product.setUrl(url);
         driver.close();
         return product;
@@ -29,6 +29,7 @@ public class ScannerPageWithFirefox implements TurningProduct {
         for (String element : elements) {
             try {
                 webElement = driver.findElement(By.cssSelector(element));
+                break;
             } catch (NoSuchElementException ignored) {
             }
         }

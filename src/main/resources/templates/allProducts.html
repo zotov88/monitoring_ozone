@@ -23,7 +23,7 @@
             </thead>
             <tbody>
             <tr th:each="p : ${products}">
-                <td th:text="${p.getName()}"></td>
+                <td th:text="${p.getName().substring(0, (p.getName().length() > 90) ? 90 : p.getName().length())}"></td>
                 <td th:text="${p.getPrice()}"></td>
                 <td><a href="#" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                        th:href="@{${p.getUrl()}}">link</a></td>
