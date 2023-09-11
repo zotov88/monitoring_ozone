@@ -25,14 +25,14 @@
             <tr th:each="p : ${products}">
                 <td th:text="${p.getName()}"></td>
                 <td th:text="${p.getPrice()}"></td>
-                <td><a th:href="@{${p.getUrl()}}">Ссылка</a></td>
+                <td><a href="#" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                       th:href="@{${p.getUrl()}}">link</a></td>
                 <td>
-                    <a class="btn btn-sm btn-info"
-                       th:href="'/story/' + ${p.getId()}">История</a>
                     <a class="btn btn-sm btn-warning"
-                       th:href="'/story/' + ${p.getId()}"
-                       onclick="return confirm('Вы хотите удалить врача?' +
-                        '\nУдалится все его расписание и отменятся все вктивные записи!')">Удалить</a>
+                       th:href="'/story/' + ${p.getId()}">История</a>
+                    <a class="btn btn-sm btn-danger"
+                       th:href="'/products/delete/' + ${p.getId()}"
+                       onclick="return confirm('Удалить товар и историю?')">Удалить</a>
                 </td>
             </tr>
             </tbody>
@@ -40,7 +40,7 @@
         <div class="mt1-l">
             <br>
             <div class="vk">
-                <button type="submit">Актуализировать</button>
+                <button class="btn btn-sm btn-info" type="submit">Актуализировать</button>
             </div>
         </div>
     </form>

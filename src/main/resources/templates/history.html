@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2 align="center" th:text ="${productName}"></h2>
+
+        <div id="container"></div>
+    </div>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'area'
+                },
+                title: {
+                    text: ''
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [[${keySet}]],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    max: [[${graphHeight}]],
+                    title: {
+                        text: 'Price'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} K</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Date',
+                    data: [[${values}]]
+                }]
+            });
+        });
+    </script>
+    <br><br>
+    <p th:text="'max: ' + ${max} + ' (' + ${dateMaxVal} + ')'"></p>
+    <p th:text="'min: ' + ${min} + ' (' + ${dateMinVal} + ')'"></p>
+</div>
+</body>
+</html>

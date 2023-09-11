@@ -1,6 +1,6 @@
 package monitoring_ozone.constants;
 
-public interface XPathConstants {
+public interface CSSConstants {
 
     String title1 = ".n7l";
 

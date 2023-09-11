@@ -1,31 +1,27 @@
 package monitoring_ozone.MVC.controller;
 
 import monitoring_ozone.model.Product;
-import monitoring_ozone.model.Story;
 import monitoring_ozone.service.ProductService;
 import monitoring_ozone.service.ScannerPageService;
 import monitoring_ozone.service.StoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/products")
-public class ProductsController {
+public class ProductController {
 
     private final ProductService productService;
     private final ScannerPageService scannerPageService;
     private final StoryService storyService;
 
-    public ProductsController(ProductService productService,
-                              ScannerPageService scannerPageService,
-                              StoryService storyService) {
+    public ProductController(ProductService productService,
+                             ScannerPageService scannerPageService,
+                             StoryService storyService) {
         this.productService = productService;
         this.scannerPageService = scannerPageService;
         this.storyService = storyService;
@@ -39,7 +35,8 @@ public class ProductsController {
     @PostMapping("/add")
     public String getAndSaveProduct(@ModelAttribute("productForm") Product prod) {
         Product product = scannerPageService.getProduct(prod.getUrl());
-        productService.addProduct(product);
+        productService.create(product);
+        storyService.create(product, product.getPrice());
         return "redirect:/products/add";
     }
 
@@ -54,12 +51,18 @@ public class ProductsController {
         List<Product> productList = productService.getAll();
         for (Product product : productList) {
             Product tmpProduct = scannerPageService.getProduct(product.getUrl());
-            Story story = new Story();
-            story.setProduct(product);
-            story.setPrice(tmpProduct.getPrice());
-            story.setDate(LocalDate.now());
-            storyService.add(story);
+            if (!Objects.equals(product.getPrice(), tmpProduct.getPrice())) {
+                storyService.create(product, tmpProduct.getPrice());
+                product.setPrice(tmpProduct.getPrice());
+                productService.update(product);
+            }
         }
+        return "redirect:/products/all";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        productService.delete(id);
         return "redirect:/products/all";
     }
 }

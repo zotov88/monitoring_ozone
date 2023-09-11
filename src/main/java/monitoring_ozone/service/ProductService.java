@@ -15,11 +15,23 @@ public class ProductService {
         this.repository = repository;
     }
 
-    public void addProduct(Product product) {
+    public void create(Product product) {
         repository.save(product);
     }
 
     public List<Product> getAll() {
         return repository.findAll();
+    }
+
+    public void update(Product product) {
+        repository.save(product);
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    public Product getOne(Long id) {
+        return repository.getReferenceById(id);
     }
 }
