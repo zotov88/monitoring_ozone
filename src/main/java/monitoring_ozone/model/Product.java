@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -22,13 +21,25 @@ public class Product {
     @Column(unique = true)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(length = 1024)
+    @Column(name = "short_name")
+    private String shortName;
+
+    @Column(nullable = false, length = 1024)
     private String url;
 
+    @Column(nullable = false)
     private Integer price;
+
+    @Column(name = "expected")
+    private Integer expectedPrice;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Story> stories;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "FK_PRODUCT_USER"))
+    private User user;
 }

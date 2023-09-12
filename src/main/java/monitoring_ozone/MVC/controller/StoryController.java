@@ -1,7 +1,6 @@
 package monitoring_ozone.MVC.controller;
 
 import monitoring_ozone.model.Story;
-import monitoring_ozone.repository.StoryRepository;
 import monitoring_ozone.service.ProductService;
 import monitoring_ozone.service.StoryService;
 import org.springframework.stereotype.Controller;
