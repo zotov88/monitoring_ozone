@@ -11,38 +11,62 @@ import java.util.Collection;
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
+    private final Integer id;
+    private final String username;
+    private final String password;
+    private final Collection<? extends GrantedAuthority> authorities;
+    private final Boolean enabled;
+    private final Boolean accountNonExpired;
+    private final Boolean accountNonLocked;
+    private final Boolean credentialsNonExpired;
+
+
+    public CustomUserDetails(final Integer id,
+                             final String username,
+                             final String password,
+                             final Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
+        this.enabled = true;
+        this.accountNonLocked = true;
+        this.accountNonExpired = true;
+        this.credentialsNonExpired = true;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return accountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return accountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return credentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 }

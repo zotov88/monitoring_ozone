@@ -1,7 +1,10 @@
 package monitoring_ozone.service;
 
 import monitoring_ozone.model.Product;
+import monitoring_ozone.model.Role;
+import monitoring_ozone.model.User;
 import monitoring_ozone.repository.ProductRepository;
+import monitoring_ozone.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,12 +13,27 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository repository;
+    //временно
+    private final UserRepository userRepository;
 
-    public ProductService(ProductRepository repository) {
+    public ProductService(ProductRepository repository, UserRepository userRepository) {
         this.repository = repository;
+        this.userRepository = userRepository;
     }
 
     public void create(Product product) {
+        //временно
+        User user = new User();
+        user.setName("Ivan");
+        Role role = new Role();
+        role.setId(1L);
+        user.setRole(role);
+        user.setLogin("login");
+        user.setPassword("1234");
+        user.setTgBotToken("123455");
+        user.setTgChatId(123L);
+        userRepository.save(user);
+        product.setUser(user);
         repository.save(product);
     }
 
