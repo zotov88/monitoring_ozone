@@ -11,6 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import static monitoring_ozone.constants.RolesConstants.ADMIN;
+import static monitoring_ozone.constants.RolesConstants.USER;
+import static monitoring_ozone.constants.WebSecurityConstants.AUTH_LIST;
 import static monitoring_ozone.constants.WebSecurityConstants.RESOURCES_WHITE_LIST;
 
 @Configuration
@@ -32,7 +35,8 @@ public class WebSecurityConfig {
 
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(RESOURCES_WHITE_LIST.toArray(String[]::new)).permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers(AUTH_LIST.toArray(String[]::new)).hasAnyRole(USER, ADMIN)
+                        .anyRequest().permitAll())
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/")

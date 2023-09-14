@@ -13,27 +13,12 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository repository;
-    //временно
-    private final UserRepository userRepository;
 
-    public ProductService(ProductRepository repository, UserRepository userRepository) {
+    public ProductService(ProductRepository repository) {
         this.repository = repository;
-        this.userRepository = userRepository;
     }
 
     public void create(Product product) {
-        //временно
-        User user = new User();
-        user.setName("Ivan");
-        Role role = new Role();
-        role.setId(1L);
-        user.setRole(role);
-        user.setLogin("login");
-        user.setPassword("1234");
-        user.setTgBotToken("123455");
-        user.setTgChatId(123L);
-        userRepository.save(user);
-        product.setUser(user);
         repository.save(product);
     }
 

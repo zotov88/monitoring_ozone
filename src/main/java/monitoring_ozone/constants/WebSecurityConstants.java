@@ -13,5 +13,9 @@ public interface WebSecurityConstants {
                     "/css/**",
                     "/"
             );
+    List<String> AUTH_LIST = List.of
+            (
+                    "/products/**"
+            );
 
 }
