@@ -10,9 +10,9 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
 
     @Query(nativeQuery = true,
             value = """
-                    select *
-                    from ozone.stories
-                    where product_id = :id
-                    """)
+            select *
+            from ozone.stories
+            where product_id = :id
+            """)
     List<Story> findAllById(Long id);
 }

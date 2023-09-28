@@ -1,10 +1,7 @@
 package monitoring_ozone.service;
 
 import monitoring_ozone.model.Product;
-import monitoring_ozone.model.Role;
-import monitoring_ozone.model.User;
 import monitoring_ozone.repository.ProductRepository;
-import monitoring_ozone.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +19,8 @@ public class ProductService {
         repository.save(product);
     }
 
-    public List<Product> getAll() {
-        return repository.findAll();
+    public List<Product> getAllByUserId(Long id) {
+        return repository.findAllByUserIdN(id);
     }
 
     public void update(Product product) {

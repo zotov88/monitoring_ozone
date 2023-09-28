@@ -11,7 +11,7 @@ import java.util.Collection;
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final Integer id;
+    private final Long id;
     private final String username;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
@@ -21,7 +21,7 @@ public class CustomUserDetails implements UserDetails {
     private final Boolean credentialsNonExpired;
 
 
-    public CustomUserDetails(final Integer id,
+    public CustomUserDetails(final Long id,
                              final String username,
                              final String password,
                              final Collection<? extends GrantedAuthority> authorities) {
@@ -68,5 +68,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public Long getUserId() {
+        return id;
     }
 }

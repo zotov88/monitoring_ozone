@@ -15,7 +15,8 @@ public interface WebSecurityConstants {
             );
     List<String> AUTH_LIST = List.of
             (
-                    "/products/**"
+                    "/products/all/{id}",
+                    "products/add"
             );
 
 }

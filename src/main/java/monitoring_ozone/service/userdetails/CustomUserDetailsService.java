@@ -28,6 +28,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findUserByLogin(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + RolesConstants.USER));
-        return new CustomUserDetails(user.getId().intValue(), username, user.getPassword(), authorities);
+        return new CustomUserDetails(user.getId(), username, user.getPassword(), authorities);
     }
 }
