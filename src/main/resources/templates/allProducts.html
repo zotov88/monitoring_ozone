@@ -10,7 +10,7 @@
 <body>
 <div layout:fragment="content">
 
-    <form method="POST" th:action="@{/products/all}">
+    <form method="POST" th:action="@{'/products/all/' + ${#authentication.getPrincipal().getUserId()}}">
         <h3 align="center">Продукты</h3>
         <table class="table table-bordered table-sm mt-3">
             <thead>

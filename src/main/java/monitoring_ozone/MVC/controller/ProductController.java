@@ -60,9 +60,9 @@ public class ProductController {
         return "allProducts";
     }
 
-    @PostMapping("/all")
-    public String updateListProducts() {
-        List<Product> productList = productService.getAllByUserId(1L);
+    @PostMapping("/all/{id}")
+    public String updateListProducts(@PathVariable Long id) {
+        List<Product> productList = productService.getAllByUserId(id);
         Map<Product, Integer> cheaperProducts = new HashMap<>();
         for (Product product : productList) {
             int previousPrice = product.getPrice();
@@ -79,7 +79,7 @@ public class ProductController {
         if (!cheaperProducts.isEmpty()) {
             notifications.sendAll(createMessage(cheaperProducts));
         }
-        return "redirect:/products/all";
+        return "redirect:/products/all/{id}";
     }
 
     private String createMessage(Map<Product, Integer> changesProducts) {

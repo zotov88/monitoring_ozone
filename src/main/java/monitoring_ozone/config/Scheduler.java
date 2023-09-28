@@ -13,8 +13,9 @@ public class Scheduler {
         this.productController = productController;
     }
 
-    @Scheduled(cron = "0 0 * * * *")
-    public void updateListOfProducts() {
-        productController.updateListProducts();
-    }
+    // сделать отдельный методо обновления всей базы продуктов поочередно по каждому пользователю
+//    @Scheduled(cron = "0 0 * * * *")
+//    public void updateListOfProducts() {
+//        productController.updateListProducts();
+//    }
 }
