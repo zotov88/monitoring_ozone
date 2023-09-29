@@ -28,6 +28,7 @@ public class ScannerPageWithFirefox implements TurningProduct {
         WebElement webElement = null;
         for (String element : elements) {
             try {
+                System.out.println("++++++++++++++++++++++++"+element);
                 webElement = driver.findElement(By.cssSelector(element));
                 break;
             } catch (NoSuchElementException ignored) {

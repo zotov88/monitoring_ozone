@@ -15,4 +15,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             where user_id = :id
             """)
     List<Product> findAllByUserIdN(Long id);
+
+    @Query(nativeQuery = true,
+    value = """
+            select distinct user_id
+            from ozone.products
+            """)
+    List<Long> getDistinctByUserId();
 }

@@ -1,5 +1,6 @@
 package monitoring_ozone.service.notifications;
 
+import monitoring_ozone.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,9 +15,9 @@ public final class SenderNotifications {
 
     }
 
-    public void sendAll(String message) {
+    public void sendAll(User user, String message) {
         for (NotificationProxy notifier : notifiers) {
-            notifier.send(message);
+            notifier.send(user, message);
         }
     }
 }

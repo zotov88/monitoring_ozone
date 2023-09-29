@@ -11,11 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -52,7 +47,6 @@ public class ProductController {
         return "redirect:/products/add";
     }
 
-
     @GetMapping("/all/{id}")
     public String allProducts(@PathVariable Long id,
                               Model model) {
@@ -62,35 +56,8 @@ public class ProductController {
 
     @PostMapping("/all/{id}")
     public String updateListProducts(@PathVariable Long id) {
-        List<Product> productList = productService.getAllByUserId(id);
-        Map<Product, Integer> cheaperProducts = new HashMap<>();
-        for (Product product : productList) {
-            int previousPrice = product.getPrice();
-            Product tmpProduct = scannerPageService.getProduct(product.getUrl());
-            if (!Objects.equals(product.getPrice(), tmpProduct.getPrice())) {
-                storyService.create(product, tmpProduct.getPrice());
-                product.setPrice(tmpProduct.getPrice());
-                productService.update(product);
-                if (tmpProduct.getPrice() < previousPrice) {
-                    cheaperProducts.put(product, previousPrice - tmpProduct.getPrice());
-                }
-            }
-        }
-        if (!cheaperProducts.isEmpty()) {
-            notifications.sendAll(createMessage(cheaperProducts));
-        }
+        productService.checkProductsOneUser(id);
         return "redirect:/products/all/{id}";
-    }
-
-    private String createMessage(Map<Product, Integer> changesProducts) {
-        StringBuilder sb = new StringBuilder();
-        int i = 1;
-        for (Product product : changesProducts.keySet()) {
-            sb.append(i++).append(". ").append(product.getName())
-                    .append(" подешевел на ").append(changesProducts.get(product))
-                    .append(" рублей. Текущая цена - ").append(product.getPrice()).append(" рублей\n");
-        }
-        return sb.toString();
     }
 
     @GetMapping("/delete/{id}")
