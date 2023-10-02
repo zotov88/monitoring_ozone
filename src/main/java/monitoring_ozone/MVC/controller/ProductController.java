@@ -9,7 +9,10 @@ import monitoring_ozone.service.notifications.SenderNotifications;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/products")
@@ -65,4 +68,32 @@ public class ProductController {
         productService.delete(id);
         return "redirect:/products/all";
     }
+
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable Long id,
+                         Model model) {
+        model.addAttribute("productForm", productService.getOne(id));
+        return "updateProduct";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute("productForm") Product productUpdated,
+                         BindingResult bindingResult) {
+        Product foundProduct = productService.getOne(productUpdated.getId());
+        int expectedPrice = 0;
+        if (productUpdated.getExpectedPrice() != null) {
+            try {
+                expectedPrice = productUpdated.getExpectedPrice();
+            } catch (Exception e) {
+                bindingResult.rejectValue("expectedPrice", "error.expectedPrice", "Введите число");
+                return "updateProduct";
+            }
+        }
+        foundProduct.setName(productUpdated.getName());
+        foundProduct.setExpectedPrice(expectedPrice == 0 ? null : expectedPrice);
+        productService.update(foundProduct);
+        return "redirect:/products/all/" +
+                userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+    }
+
 }
