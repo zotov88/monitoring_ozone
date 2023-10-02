@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование профиля</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h3 class="mt-3 mb-3"
+        th:text="'Редактировать профиль: ' + ${userForm.getName()}">
+        Редактировать профиль</h3>
+    <form method="POST" class="needs-validation" novalidate style="max-width: 50vw"
+          th:action="@{/users/profile/update}" th:object="${userForm}">
+        <input type="hidden" name="id"
+               th:value="${userForm.getId()}">
+        <div class="mt-3 row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <input name="name" th:value="${userForm.getName()}" type="text" class="form-control"
+                           id="name" placeholder="Введите имя" required>
+                    <label for="name">Имя</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <input name="tgBotToken" th:value="${userForm.getTgBotToken()}" type="text" class="form-control"
+                           id="tgBotToken" placeholder="Введите бот токен" required>
+                    <label for="name">Тг токен</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <input name="tgChatId" th:value="${userForm.getTgBotToken()}" type="text" class="form-control"
+                           id="tgChatId" placeholder="Введите чат id" required>
+                    <label for="name">Тг чат id</label>
+                    <div class="invalid-feedback">Обязательное поле для заполнения</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt1-l">
+            <br>
+            <div class="vk">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+                <button type="button" class="btn btn-primary" onclick="window.history.back()">Назад</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

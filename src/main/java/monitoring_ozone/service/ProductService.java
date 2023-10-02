@@ -6,7 +6,10 @@ import monitoring_ozone.repository.UserRepository;
 import monitoring_ozone.service.notifications.SenderNotifications;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class ProductService {
@@ -38,7 +41,7 @@ public class ProductService {
     }
 
     public void update(Product product) {
-        repository.save(product);
+        create(product);
     }
 
     public void delete(Long id) {
@@ -59,9 +62,9 @@ public class ProductService {
         List<Product> productList = getAllByUserId(id);
         Map<Product, Integer> cheaperProducts = new HashMap<>();
         for (Product product : productList) {
-            int previousPrice = product.getPrice();
+            int previousPrice = product.getExpectedPrice() == null ? product.getPrice() : product.getExpectedPrice();
             Product tmpProduct = scannerPageService.getProduct(product.getUrl());
-            if (!Objects.equals(product.getPrice(), tmpProduct.getPrice())) {
+            if (!Objects.equals(previousPrice, tmpProduct.getPrice())) {
                 storyService.create(product, tmpProduct.getPrice());
                 product.setPrice(tmpProduct.getPrice());
                 update(product);
@@ -86,28 +89,4 @@ public class ProductService {
         return sb.toString();
     }
 
-
-
-
-
-//    public String updateListProducts(@PathVariable Long id) {
-//        List<Product> productList = productService.getAllByUserId(id);
-//        Map<Product, Integer> cheaperProducts = new HashMap<>();
-//        for (Product product : productList) {
-//            int previousPrice = product.getPrice();
-//            Product tmpProduct = scannerPageService.getProduct(product.getUrl());
-//            if (!Objects.equals(product.getPrice(), tmpProduct.getPrice())) {
-//                storyService.create(product, tmpProduct.getPrice());
-//                product.setPrice(tmpProduct.getPrice());
-//                productService.update(product);
-//                if (tmpProduct.getPrice() < previousPrice) {
-//                    cheaperProducts.put(product, previousPrice - tmpProduct.getPrice());
-//                }
-//            }
-//        }
-//        if (!cheaperProducts.isEmpty()) {
-//            notifications.sendAll(createMessage(cheaperProducts));
-//        }
-//        return "redirect:/products/all/{id}";
-//    }
 }

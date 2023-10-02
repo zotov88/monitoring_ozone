@@ -18,12 +18,20 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public void create(User user) {
+    public User getById(final Long id) {
+        return repository.getReferenceById(id);
+    }
+
+    public void create(final User user) {
         Role role = new Role();
         role.setId(1L);
         user.setRole(role);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         repository.save(user);
+    }
+
+    public void update(final User user) {
+        create(user);
     }
 
     public User findByLogin(String login) {

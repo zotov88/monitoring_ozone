@@ -1,6 +1,5 @@
 package monitoring_ozone.service.userdetails;
 
-import lombok.Setter;
 import monitoring_ozone.constants.RolesConstants;
 import monitoring_ozone.model.User;
 import monitoring_ozone.repository.UserRepository;

@@ -19,6 +19,10 @@
                            th:href="'/products/all/' + ${#authentication.getPrincipal().getUserId()}">Продукты</a>
                     </li>
                 </ul>
+                <div sec:authorize="isAuthenticated() && hasRole('USER')">
+                    <a class="nav-link active" style="float: right"
+                       th:href="'/users/profile/' + ${#authentication.getPrincipal().getUserId()}">Профиль</a>
+                </div>
                 <form class="d-flex" sec:authorize="!isAuthenticated()">
                     <a href="/login" class="btn btn-dark" role="button" aria-disabled="true">Войти</a>
                 </form>
