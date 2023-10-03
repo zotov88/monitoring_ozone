@@ -31,7 +31,7 @@ public class UserService {
     }
 
     public void update(final User user) {
-        create(user);
+        repository.save(user);
     }
 
     public User findByLogin(String login) {

@@ -3,6 +3,6 @@ values ('USER'),
        ('ADMIN');
 
 update ozone.users
-set tg_token = '5697984225:AAFoIt1WoiRi7w2AkQgYpn6VaWp_DBw9SPU',
-               tg_chat_id = 613276132
-where id = 3;
+set password = '$2a$12$B6A1PpCwbdN/C0D10y7sl.XjrqHBNHGJsfWSq2I9EISfUVZLPKRT6'
+where id = 4;
+

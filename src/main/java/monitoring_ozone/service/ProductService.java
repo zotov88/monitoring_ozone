@@ -6,10 +6,7 @@ import monitoring_ozone.repository.UserRepository;
 import monitoring_ozone.service.notifications.SenderNotifications;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -62,23 +59,30 @@ public class ProductService {
         List<Product> productList = getAllByUserId(id);
         Map<Product, Integer> cheaperProducts = new HashMap<>();
         for (Product product : productList) {
-            int previousPrice = product.getExpectedPrice() == null ? product.getPrice() : product.getExpectedPrice();
-            Product tmpProduct = scannerPageService.getProduct(product.getUrl());
-            if (!Objects.equals(previousPrice, tmpProduct.getPrice())) {
-                storyService.create(product, tmpProduct.getPrice());
-                product.setPrice(tmpProduct.getPrice());
+            int previousPrice = product.getPrice();
+            Product updProduct = scannerPageService.getProduct(product.getUrl());
+            if (!Objects.equals(previousPrice, updProduct.getPrice())) {
+                storyService.create(product, updProduct.getPrice());
+                product.setPrice(updProduct.getPrice());
                 update(product);
-                if (tmpProduct.getPrice() < previousPrice) {
-                    cheaperProducts.put(product, previousPrice - tmpProduct.getPrice());
-                }
             }
+            priceComparison(product, updProduct, cheaperProducts);
         }
         if (!cheaperProducts.isEmpty()) {
-            notifications.sendAll(userRepository.getById(id), createMessage(cheaperProducts));
+            notifications.sendAll(userRepository.getReferenceById(id), createMessage(cheaperProducts));
         }
     }
 
-    private String createMessage(Map<Product, Integer> changesProducts) {
+    private void priceComparison(final Product product,
+                                 final Product updProduct,
+                                 final Map<Product, Integer> cheaperProducts) {
+        int targetPrice = product.getExpectedPrice() != null ? product.getExpectedPrice() : product.getPrice();
+        if (updProduct.getPrice() < targetPrice) {
+            cheaperProducts.put(product, product.getPrice() - updProduct.getPrice());
+        }
+    }
+
+    private String createMessage(final Map<Product, Integer> changesProducts) {
         StringBuilder sb = new StringBuilder();
         int i = 1;
         for (Product product : changesProducts.keySet()) {

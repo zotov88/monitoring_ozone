@@ -10,8 +10,25 @@
 <body>
 <div layout:fragment="content">
 
+    <form method="POST" th:action="@{/products/add}">
+        <div class="mt-3 row g-2">
+            <div class="col-md">
+                <input name="url" type="text" class="form-control" id="url" placeholder="Введите ссылку для добавления товара"
+                       required>
+                <div class="invalid-feedback">Обязательное поле для заполнения</div>
+            </div>
+        </div>
+
+        <div class="mt1-l">
+            <br>
+            <div class="vk">
+                <button class="btn btn-sm btn-primary" type="submit">Добавить</button>
+            </div>
+        </div>
+    </form>
+
     <form method="POST" th:action="@{'/products/all/' + ${#authentication.getPrincipal().getUserId()}}">
-        <h3 align="center">Продукты</h3>
+        <h4 align="center">Товары</h4>
         <table class="table table-bordered table-sm mt-3">
             <thead>
             <tr>
@@ -44,7 +61,7 @@
         <div class="mt1-l">
             <br>
             <div class="vk">
-                <button class="btn btn-sm btn-info" type="submit">Актуализировать</button>
+                <button class="btn btn-sm btn-primary" type="submit">Актуализировать</button>
             </div>
         </div>
     </form>

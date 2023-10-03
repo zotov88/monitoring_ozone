@@ -20,23 +20,15 @@ public class ProductController {
     private final UserService userService;
     private final ScannerPageService scannerPageService;
     private final StoryService storyService;
-    private final SenderNotifications notifications;
 
     public ProductController(ProductService productService,
                              UserService userService,
                              ScannerPageService scannerPageService,
-                             StoryService storyService,
-                             SenderNotifications notifications) {
+                             StoryService storyService) {
         this.productService = productService;
         this.userService = userService;
         this.scannerPageService = scannerPageService;
         this.storyService = storyService;
-        this.notifications = notifications;
-    }
-
-    @GetMapping("/add")
-    public String add() {
-        return "addProduct";
     }
 
     @PostMapping("/add")
@@ -45,7 +37,8 @@ public class ProductController {
         product.setUser(userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()));
         productService.create(product);
         storyService.create(product, product.getPrice());
-        return "redirect:/products/add";
+        return "redirect:/products/all/" +
+                userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
     }
 
     @GetMapping("/all/{id}")
@@ -64,7 +57,8 @@ public class ProductController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         productService.delete(id);
-        return "redirect:/products/all";
+        return "redirect:/products/all/" +
+                userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
     }
 
     @GetMapping("/update/{id}")
