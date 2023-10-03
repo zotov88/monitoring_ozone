@@ -18,8 +18,7 @@ public class ScannerPageWithFirefox implements TurningProduct {
         FirefoxDriver driver = new FirefoxDriver();
         driver.get(url);
         Product product = new Product();
-        String name = getWebelement(CSSSelectorConstants.titles, driver).getText();
-        product.setName(name.length() > 50 ? name.substring(0, 50) : name);
+        product.setName(getWebelement(CSSSelectorConstants.titles, driver).getText());
         product.setPrice(StringToInteger.parseInt(getWebelement(CSSSelectorConstants.prices, driver).getText()));
         product.setUrl(url);
         driver.close();

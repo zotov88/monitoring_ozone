@@ -11,55 +11,56 @@
 <div layout:fragment="content">
 
     <form method="POST" th:action="@{/products/add}">
-        <div class="mt-3 row g-2">
-            <div class="col-md">
-                <input name="url" type="text" class="form-control" id="url" placeholder="Введите ссылку для добавления товара"
-                       required>
-                <div class="invalid-feedback">Обязательное поле для заполнения</div>
-            </div>
-        </div>
-
-        <div class="mt1-l">
-            <br>
-            <div class="vk">
-                <button class="btn btn-sm btn-primary" type="submit">Добавить</button>
+        <div class="d-flex justify-content-center">
+            <div class="input-group w-auto">
+                <input
+                        name="url"
+                        type="text"
+                        class="form-control"
+                        placeholder="введите ссылку"
+                        aria-label="Example input"
+                        aria-describedby="button-addon1" required/>
+                <button class="btn btn-sm btn-primary" type="submit" id="button-addon1" data-mdb-ripple-color="dark">Добавить
+                </button>
             </div>
         </div>
     </form>
-
     <form method="POST" th:action="@{'/products/all/' + ${#authentication.getPrincipal().getUserId()}}">
-        <h4 align="center">Товары</h4>
         <table class="table table-bordered table-sm mt-3">
             <thead>
             <tr>
                 <th scope="col">Название</th>
                 <th scope="col">Цена</th>
                 <th scope="col">Ожидание</th>
-                <th scope="col">Ссылка</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="p : ${products}">
-                <td th:text="${p.getName().substring(0, (p.getName().length() > 90) ? 90 : p.getName().length())}"></td>
+                <td th:text="${p.getName().substring(0, (p.getName().length() > 50) ? 50 : p.getName().length())}"></td>
                 <td th:text="${p.getPrice()}"></td>
                 <td th:text="${p.getExpectedPrice()}"></td>
-                <td><a href="#" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                       th:href="@{${p.getUrl()}}">link</a></td>
+<!--                <td><a href="#"-->
+<!--                       class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"-->
+<!--                       th:href="@{${p.getUrl()}}">link</a>-->
+<!--                </td>-->
                 <td>
-                    <a class="btn btn-sm btn-warning"
-                       th:href="'/story/' + ${p.getId()}">История</a>
+                    <a class="btn btn-sm btn-link" th:href="${p.getUrl()}"><i class="fa fa-external-link"></i></a>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-warning" th:href="'/story/' + ${p.getId()}">
+                        <i class="fa fa-area-chart"></i></a>
                     <a class="btn btn-sm btn-info"
-                       th:href="'/products/update/' + ${p.getId()}">Редактировать</a>
+                       th:href="'/products/update/' + ${p.getId()}"><i class="fa fa-pencil"></i></a>
                     <a class="btn btn-sm btn-danger"
                        th:href="'/products/delete/' + ${p.getId()}"
-                       onclick="return confirm('Удалить товар и историю?')">Удалить</a>
+                       onclick="return confirm('Удалить товар и историю?')"><i class="fa fa-trash-o"></i></a>
                 </td>
             </tr>
             </tbody>
         </table>
         <div class="mt1-l">
-            <br>
             <div class="vk">
                 <button class="btn btn-sm btn-primary" type="submit">Актуализировать</button>
             </div>
