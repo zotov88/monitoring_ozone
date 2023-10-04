@@ -11,18 +11,18 @@ import java.util.*;
 @Service
 public class ProductService {
 
-    private final ProductRepository repository;
+    private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final ScannerPageService scannerPageService;
     private final StoryService storyService;
     private final SenderNotifications notifications;
 
-    public ProductService(ProductRepository repository,
+    public ProductService(ProductRepository productRepository,
                           UserRepository userRepository,
                           ScannerPageService scannerPageService,
                           StoryService storyService,
                           SenderNotifications notifications) {
-        this.repository = repository;
+        this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.scannerPageService = scannerPageService;
         this.storyService = storyService;
@@ -30,11 +30,11 @@ public class ProductService {
     }
 
     public void create(Product product) {
-        repository.save(product);
+        productRepository.save(product);
     }
 
     public List<Product> getAllByUserId(Long id) {
-        return repository.findAllByUserIdN(id);
+        return productRepository.findAllByUserIdN(id);
     }
 
     public void update(Product product) {
@@ -42,23 +42,23 @@ public class ProductService {
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        productRepository.deleteById(id);
     }
 
     public Product getOne(Long id) {
-        return repository.getReferenceById(id);
+        return productRepository.getReferenceById(id);
     }
 
     public void checkProductsAllUsers() {
-        for (Long id : repository.getDistinctByUserId()) {
-            checkProductsOneUser(id);
+        for (Long id : productRepository.getDistinctByUserId()) {
+            checkProductsOneUser(getAllByUserId(id), id);
         }
     }
 
-    public void checkProductsOneUser(Long id) {
-        List<Product> productList = getAllByUserId(id);
+    public void checkProductsOneUser(List<Product> products,
+                                     Long userId) {
         Map<Product, Integer> cheaperProducts = new HashMap<>();
-        for (Product product : productList) {
+        for (Product product : products) {
             int previousPrice = product.getPrice();
             Product updProduct = scannerPageService.getProduct(product.getUrl());
             if (!Objects.equals(previousPrice, updProduct.getPrice())) {
@@ -69,8 +69,13 @@ public class ProductService {
             priceComparison(product, updProduct, cheaperProducts);
         }
         if (!cheaperProducts.isEmpty()) {
-            notifications.sendAll(userRepository.getReferenceById(id), createMessage(cheaperProducts));
+            notifications.sendAll(userRepository.getReferenceById(userId), createMessage(cheaperProducts));
         }
+    }
+
+    public void checkProductUser(final Long productId,
+                                 final Long userId) {
+        checkProductsOneUser(new ArrayList<>(List.of(productRepository.getReferenceById(productId))), userId);
     }
 
     private void priceComparison(final Product product,
@@ -92,5 +97,4 @@ public class ProductService {
         }
         return sb.toString();
     }
-
 }

@@ -9,7 +9,6 @@
 </head>
 <body>
 <div layout:fragment="content">
-
     <form method="POST" th:action="@{/products/add}">
         <div class="d-flex justify-content-center">
             <div class="input-group w-auto">
@@ -20,7 +19,9 @@
                         placeholder="введите ссылку"
                         aria-label="Example input"
                         aria-describedby="button-addon1" required/>
-                <button class="btn btn-sm btn-primary" type="submit" id="button-addon1" data-mdb-ripple-color="dark">Добавить
+                <button title="добавить товар"
+                        class="btn btn-sm btn-primary" type="submit" id="button-addon1" data-mdb-ripple-color="dark">
+                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
                 </button>
             </div>
         </div>
@@ -32,8 +33,7 @@
                 <th scope="col">Название</th>
                 <th scope="col">Цена</th>
                 <th scope="col">Ожидание</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Функционал</th>
             </tr>
             </thead>
             <tbody>
@@ -41,21 +41,26 @@
                 <td th:text="${p.getName().substring(0, (p.getName().length() > 50) ? 50 : p.getName().length())}"></td>
                 <td th:text="${p.getPrice()}"></td>
                 <td th:text="${p.getExpectedPrice()}"></td>
-<!--                <td><a href="#"-->
-<!--                       class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"-->
-<!--                       th:href="@{${p.getUrl()}}">link</a>-->
-<!--                </td>-->
+                <!--                <td><a href="#"-->
+                <!--                       class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"-->
+                <!--                       th:href="@{${p.getUrl()}}">link</a>-->
+                <!--                </td>-->
                 <td>
-                    <a class="btn btn-sm btn-link" th:href="${p.getUrl()}"><i class="fa fa-external-link"></i></a>
-                </td>
-                <td>
-                    <a class="btn btn-sm btn-warning" th:href="'/story/' + ${p.getId()}">
+                    <a title="ссылка" class="btn btn-sm btn-link" th:href="${p.getUrl()}"
+                    target="_blank">
+                        <i class="fa fa-external-link"></i></a>
+                    <a title="история" class="btn btn-sm btn-warning" th:href="'/story/' + ${p.getId()}">
                         <i class="fa fa-area-chart"></i></a>
-                    <a class="btn btn-sm btn-info"
-                       th:href="'/products/update/' + ${p.getId()}"><i class="fa fa-pencil"></i></a>
-                    <a class="btn btn-sm btn-danger"
+                    <a title="редактировать" class="btn btn-sm btn-info"
+                       th:href="'/products/update/' + ${p.getId()}">
+                        <i class="fa fa-pencil"></i></a>
+                    <a title="обновить" class="btn btn-sm btn-upd"
+                       th:href="'/products/all/' + ${#authentication.getPrincipal().getUserId()} + '/' + ${p.getId()}">
+                        <i class="fa fa-spin fa-refresh"></i></a>
+                    <a title="удалить" class="btn btn-sm btn-danger"
                        th:href="'/products/delete/' + ${p.getId()}"
-                       onclick="return confirm('Удалить товар и историю?')"><i class="fa fa-trash-o"></i></a>
+                       onclick="return confirm('Удалить товар и историю?')">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
                 </td>
             </tr>
             </tbody>
@@ -66,8 +71,7 @@
             </div>
         </div>
     </form>
-
-</div>
+    <br>
 </div>
 </body>
 </html>

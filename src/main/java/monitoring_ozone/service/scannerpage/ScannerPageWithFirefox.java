@@ -1,9 +1,8 @@
 package monitoring_ozone.service.scannerpage;
 
-import monitoring_ozone.constants.CSSSelectorConstants;
+import monitoring_ozone.constants.XPathConstants;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.utils.StringToInteger;
-import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -18,9 +17,17 @@ public class ScannerPageWithFirefox implements TurningProduct {
         FirefoxDriver driver = new FirefoxDriver();
         driver.get(url);
         Product product = new Product();
-        product.setName(getWebelement(CSSSelectorConstants.titles, driver).getText());
-        product.setPrice(StringToInteger.parseInt(getWebelement(CSSSelectorConstants.prices, driver).getText()));
-        product.setUrl(url);
+        String name = getWebelement(XPathConstants.titles, driver).getText();
+        System.out.println("++++++++++++++++++"+name);
+        if (name.equals("Этот товар закончился")) {
+            product.setName(name);
+            product.setPrice(0);
+            product.setUrl(url);
+        } else {
+            product.setName(name);
+            product.setPrice(StringToInteger.parseInt(getWebelement(XPathConstants.prices, driver).getText()));
+            product.setUrl(url);
+        }
         driver.close();
         return product;
     }
@@ -29,7 +36,8 @@ public class ScannerPageWithFirefox implements TurningProduct {
         WebElement webElement = null;
         for (String element : elements) {
             try {
-                webElement = driver.findElement(By.cssSelector(element));
+//                webElement = driver.findElement(By.cssSelector(element));
+                webElement = driver.findElement(By.xpath(element));
                 break;
             } catch (NoSuchElementException ignored) {
             }

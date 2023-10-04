@@ -5,7 +5,6 @@ import monitoring_ozone.service.ProductService;
 import monitoring_ozone.service.ScannerPageService;
 import monitoring_ozone.service.StoryService;
 import monitoring_ozone.service.UserService;
-import monitoring_ozone.service.notifications.SenderNotifications;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,30 +40,37 @@ public class ProductController {
                 userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
     }
 
-    @GetMapping("/all/{id}")
-    public String allProducts(@PathVariable Long id,
+    @GetMapping("/all/{userId}")
+    public String allProducts(@PathVariable Long userId,
                               Model model) {
-        model.addAttribute("products", productService.getAllByUserId(id));
+        model.addAttribute("products", productService.getAllByUserId(userId));
         return "allProducts";
     }
 
-    @PostMapping("/all/{id}")
-    public String updateListProducts(@PathVariable Long id) {
-        productService.checkProductsOneUser(id);
-        return "redirect:/products/all/{id}";
+    @PostMapping("/all/{userId}")
+    public String updateListProducts(@PathVariable Long userId) {
+        productService.checkProductsOneUser(productService.getAllByUserId(userId), userId);
+        return "redirect:/products/all/{userId}";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        productService.delete(id);
+    @GetMapping("/all/{userId}/{productId}")
+    public String updateOneProduct(@PathVariable Long productId,
+                                   @PathVariable Long userId) {
+        productService.checkProductUser(productId, userId);
+        return "redirect:/products/all/{userId}";
+    }
+
+    @GetMapping("/delete/{productId}")
+    public String delete(@PathVariable Long productId) {
+        productService.delete(productId);
         return "redirect:/products/all/" +
                 userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
     }
 
-    @GetMapping("/update/{id}")
-    public String update(@PathVariable Long id,
+    @GetMapping("/update/{productId}")
+    public String update(@PathVariable Long productId,
                          Model model) {
-        model.addAttribute("productForm", productService.getOne(id));
+        model.addAttribute("productForm", productService.getOne(productId));
         return "updateProduct";
     }
 

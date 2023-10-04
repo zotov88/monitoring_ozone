@@ -43,6 +43,20 @@
     /*min-width: 100px;*/
 }
 
+.btn-upd {
+    color: #000000 !important;
+    background-color: #68d029 !important;
+    border-color: #68d029 !important;
+    width: fit-content !important;
+}
+
+.btn-danger {
+    color: #000000 !important;
+    background-color: #f92525 !important;
+    border-color: #f92525 !important;
+    width: fit-content !important;
+}
+
 .btn-success:hover {
     color: #000000 !important;
     background-color: #27afe5 !important;

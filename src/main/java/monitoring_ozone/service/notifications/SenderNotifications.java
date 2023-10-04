@@ -12,7 +12,6 @@ public final class SenderNotifications {
 
     public SenderNotifications(List<NotificationProxy> notifiers) {
         this.notifiers = notifiers;
-
     }
 
     public void sendAll(User user, String message) {
