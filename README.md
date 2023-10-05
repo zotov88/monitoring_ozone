@@ -3,7 +3,7 @@
 В случае изменения цен сформируется список по товарам, стоимость которых стала ниже с предыдущего сканирования, и будет 
 направлено оповещение в тг-бот, который предварительно нужно создать. 
 
-[Link](#https://docs.radist.online/radist.online-docs/nashi-produkty/radist-web/podklyucheniya/telegram-bot/instrukciya-po-sozdaniyu-i-nastroiki-bota-v-botfather) на создание tg-бота.
+[Ссылка](https://docs.radist.online/radist.online-docs/nashi-produkty/radist-web/podklyucheniya/telegram-bot/instrukciya-po-sozdaniyu-i-nastroiki-bota-v-botfather) на создание tg-бота.
 
 Сервис предоставляет возможность указать желаемую цену товара. Оповещение в tg, в таком случае,
 будет приходить, когда цена снизится до ожидаемого уровня.
