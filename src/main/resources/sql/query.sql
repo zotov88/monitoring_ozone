@@ -2,7 +2,7 @@ insert into ozone.roles(title)
 values ('USER'),
        ('ADMIN');
 
-update ozone.products
-set price = 1200
-where id = 1;
+update ozone.users
+set email = 'zotov_l88@mail.ru'
+where id = 2;
 

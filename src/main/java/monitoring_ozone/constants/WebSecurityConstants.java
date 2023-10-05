@@ -11,7 +11,9 @@ public interface WebSecurityConstants {
                     "/js/**",
                     "/images/**",
                     "/css/**",
-                    "registration",
+                    "/registration",
+                    "/users/remember-password",
+                    "/users/change-password",
                     "/"
             );
     List<String> AUTH_LIST = List.of

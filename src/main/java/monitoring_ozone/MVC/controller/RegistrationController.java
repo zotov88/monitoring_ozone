@@ -33,7 +33,7 @@ public class RegistrationController {
                                BindingResult bindingResult) {
         String login = user.getLogin();
         if (login.equalsIgnoreCase(ADMIN) ||
-                (userService.findByLogin(login) != null && userService.findByLogin(login).getLogin().equals(login))) {
+                (userService.getByLogin(login) != null && userService.getByLogin(login).getLogin().equals(login))) {
             bindingResult.rejectValue("login", "login.error", "Этот логин уже существует");
             return "registration";
         }

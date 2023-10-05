@@ -33,11 +33,11 @@ public class ProductController {
     @PostMapping("/add")
     public String getAndSaveProduct(@ModelAttribute("productForm") Product prod) {
         Product product = scannerPageService.getProduct(prod.getUrl());
-        product.setUser(userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()));
+        product.setUser(userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()));
         productService.create(product);
         storyService.create(product, product.getPrice());
         return "redirect:/products/all/" +
-                userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+                userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
     }
 
     @GetMapping("/all/{userId}")
@@ -64,7 +64,7 @@ public class ProductController {
     public String delete(@PathVariable Long productId) {
         productService.delete(productId);
         return "redirect:/products/all/" +
-                userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+                userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
     }
 
     @GetMapping("/update/{productId}")
@@ -91,7 +91,7 @@ public class ProductController {
         foundProduct.setExpectedPrice(expectedPrice == 0 ? null : expectedPrice);
         productService.update(foundProduct);
         return "redirect:/products/all/" +
-                userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+                userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
     }
 
 }

@@ -29,6 +29,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private String changePasswordToken;
+
+    private String email;
+
     @Column(name = "tg_token", nullable = false)
     private String tgBotToken;
 
