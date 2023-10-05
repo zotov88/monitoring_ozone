@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @RequestMapping("/story")
@@ -33,7 +30,12 @@ public class StoryController {
                                Model model) {
         Map<LocalDate, Integer> map = new LinkedHashMap<>();
         for (Story story : storyService.getStoryList(id)) {
-            map.put(story.getDate(), story.getPrice());
+            if (!map.containsKey(story.getDate())) {
+                map.put(story.getDate(), story.getPrice());
+            } else if (map.get(story.getDate()) > story.getPrice()) {
+                map.put(story.getDate(), story.getPrice());
+            }
+
         }
         Integer maxVal = Collections.max(map.values());
         Integer minVal = Collections.min(map.values());

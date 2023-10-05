@@ -31,7 +31,8 @@ public class ScannerPageWithFirefox implements TurningProduct {
         return product;
     }
 
-    private WebElement getWebelement(String[] elements, FirefoxDriver driver) {
+    private WebElement getWebelement(String[] elements,
+                                     FirefoxDriver driver) {
         WebElement webElement = null;
         for (String element : elements) {
             try {
