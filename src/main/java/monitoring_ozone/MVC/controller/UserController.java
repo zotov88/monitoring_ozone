@@ -36,7 +36,7 @@ public class UserController {
         User foundUser = userService.getById(userUpdated.getId());
         foundUser.setName(userUpdated.getName());
         foundUser.setTgBotToken(userUpdated.getTgBotToken());
-        foundUser.setTgChatId(foundUser.getTgChatId());
+        foundUser.setTgChatId(userUpdated.getTgChatId());
         userService.update(foundUser);
         return "redirect:/products/all/" +
                 userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();

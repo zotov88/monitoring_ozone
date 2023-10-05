@@ -11,12 +11,13 @@ public interface WebSecurityConstants {
                     "/js/**",
                     "/images/**",
                     "/css/**",
+                    "registration",
                     "/"
             );
     List<String> AUTH_LIST = List.of
             (
-                    "/products/all/{id}",
-                    "products/add"
+                    "/products/all/**",
+                    "/products/add"
             );
 
 }

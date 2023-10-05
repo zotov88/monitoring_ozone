@@ -37,4 +37,8 @@ public class UserService {
     public User findByLogin(String login) {
         return repository.findUserByLogin(login);
     }
+
+    public User getUser(Long id) {
+        return repository.findUserById(id);
+    }
 }

@@ -34,8 +34,8 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(RESOURCES_WHITE_LIST.toArray(String[]::new)).permitAll()
-                        .requestMatchers(AUTH_LIST.toArray(String[]::new)).hasAnyRole(USER, ADMIN)
-                        .anyRequest().permitAll())
+                        .requestMatchers(AUTH_LIST.toArray(String[]::new)).hasAnyRole(USER)
+                        .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/")

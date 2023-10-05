@@ -1,6 +1,8 @@
 package monitoring_ozone.service;
 
+import com.beust.ah.A;
 import monitoring_ozone.model.Product;
+import monitoring_ozone.model.User;
 import monitoring_ozone.repository.ProductRepository;
 import monitoring_ozone.repository.UserRepository;
 import monitoring_ozone.service.notifications.SenderNotifications;
@@ -66,7 +68,7 @@ public class ProductService {
                 product.setPrice(updProduct.getPrice());
                 update(product);
             }
-            priceComparison(product, updProduct, cheaperProducts);
+            priceComparison(product, updProduct, previousPrice, cheaperProducts);
         }
         if (!cheaperProducts.isEmpty()) {
             notifications.sendAll(userRepository.getReferenceById(userId), createMessage(cheaperProducts));
@@ -80,10 +82,11 @@ public class ProductService {
 
     private void priceComparison(final Product product,
                                  final Product updProduct,
+                                 final int previousPrice,
                                  final Map<Product, Integer> cheaperProducts) {
-        int targetPrice = product.getExpectedPrice() != null ? product.getExpectedPrice() : product.getPrice();
-        if (updProduct.getPrice() < targetPrice) {
-            cheaperProducts.put(product, product.getPrice() - updProduct.getPrice());
+        int targetPrice = product.getExpectedPrice() != null ? product.getExpectedPrice() : previousPrice;
+        if (updProduct.getPrice() < targetPrice && product.getPrice() != 0) {
+            cheaperProducts.put(product, previousPrice - updProduct.getPrice());
         }
     }
 

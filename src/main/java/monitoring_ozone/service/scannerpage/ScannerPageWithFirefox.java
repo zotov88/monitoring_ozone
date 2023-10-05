@@ -18,7 +18,6 @@ public class ScannerPageWithFirefox implements TurningProduct {
         driver.get(url);
         Product product = new Product();
         String name = getWebelement(XPathConstants.titles, driver).getText();
-        System.out.println("++++++++++++++++++"+name);
         if (name.equals("Этот товар закончился")) {
             product.setName(name);
             product.setPrice(0);
@@ -36,7 +35,6 @@ public class ScannerPageWithFirefox implements TurningProduct {
         WebElement webElement = null;
         for (String element : elements) {
             try {
-//                webElement = driver.findElement(By.cssSelector(element));
                 webElement = driver.findElement(By.xpath(element));
                 break;
             } catch (NoSuchElementException ignored) {

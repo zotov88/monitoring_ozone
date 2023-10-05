@@ -50,10 +50,24 @@
     width: fit-content !important;
 }
 
+.btn-upd:hover {
+    color: #191616 !important;
+    background-color: #85e24e !important;
+    border-color: #85e24e !important;
+    width: fit-content !important;
+}
+
 .btn-danger {
     color: #000000 !important;
     background-color: #f92525 !important;
     border-color: #f92525 !important;
+    width: fit-content !important;
+}
+
+.btn-danger:hover {
+    color: #191616 !important;
+    background-color: #f94e4e !important;
+    border-color: #f94e4e !important;
     width: fit-content !important;
 }
 

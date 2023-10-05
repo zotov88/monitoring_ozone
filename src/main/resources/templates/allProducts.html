@@ -47,27 +47,37 @@
                 <!--                </td>-->
                 <td>
                     <a title="ссылка" class="btn btn-sm btn-link" th:href="${p.getUrl()}"
-                    target="_blank">
-                        <i class="fa fa-external-link"></i></a>
+                       target="_blank">
+                        <i class="fa fa-external-link"></i>
+                    </a>
                     <a title="история" class="btn btn-sm btn-warning" th:href="'/story/' + ${p.getId()}">
-                        <i class="fa fa-area-chart"></i></a>
+                        <i class="fa fa-area-chart"></i>
+                    </a>
                     <a title="редактировать" class="btn btn-sm btn-info"
                        th:href="'/products/update/' + ${p.getId()}">
-                        <i class="fa fa-pencil"></i></a>
+                        <i class="fa fa-pencil"></i>
+                    </a>
                     <a title="обновить" class="btn btn-sm btn-upd"
                        th:href="'/products/all/' + ${#authentication.getPrincipal().getUserId()} + '/' + ${p.getId()}">
-                        <i class="fa fa-spin fa-refresh"></i></a>
+                        <i class="fa fa-spin fa-refresh"></i>
+                    </a>
                     <a title="удалить" class="btn btn-sm btn-danger"
                        th:href="'/products/delete/' + ${p.getId()}"
                        onclick="return confirm('Удалить товар и историю?')">
                         <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
                 </td>
             </tr>
             </tbody>
         </table>
         <div class="mt1-l">
             <div class="vk">
-                <button class="btn btn-sm btn-primary" type="submit">Актуализировать</button>
+                <button title="обновить весь список"
+                        class="btn btn-sm btn-primary" type="submit">
+                    <i class="fa fa-spin fa-refresh"></i>
+                    <i class="fa fa-spin fa-refresh"></i>
+                    <i class="fa fa-spin fa-refresh"></i>
+                </button>
             </div>
         </div>
     </form>
