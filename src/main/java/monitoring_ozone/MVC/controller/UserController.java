@@ -6,6 +6,7 @@ import monitoring_ozone.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -35,9 +36,16 @@ public class UserController {
     }
 
     @PostMapping("/profile/update")
-    public String update(@ModelAttribute("userForm") User userUpdated) {
+    public String update(@ModelAttribute("userForm") User userUpdated,
+                         BindingResult bindingResult) {
+        User emailDuplicated = userService.getByEmail(userUpdated.getEmail().toLowerCase());
         User foundUser = userService.getById(userUpdated.getId());
+        if (emailDuplicated != null && !Objects.equals(emailDuplicated.getEmail(), foundUser.getEmail())) {
+            bindingResult.rejectValue("email", "error.email", "Такой email уже существует");
+            return "user/updateUser";
+        }
         foundUser.setName(userUpdated.getName());
+        foundUser.setEmail(userUpdated.getEmail().toLowerCase());
         foundUser.setTgBotToken(userUpdated.getTgBotToken());
         foundUser.setTgChatId(userUpdated.getTgChatId());
         userService.update(foundUser);

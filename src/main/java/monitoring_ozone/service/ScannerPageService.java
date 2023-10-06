@@ -2,7 +2,6 @@ package monitoring_ozone.service;
 
 import monitoring_ozone.model.Product;
 import monitoring_ozone.service.scannerpage.ScannerPageWithFirefox;
-import monitoring_ozone.service.scannerpage.TurningProduct;
 import org.springframework.stereotype.Service;
 
 @Service

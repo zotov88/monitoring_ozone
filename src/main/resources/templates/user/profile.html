@@ -27,6 +27,13 @@
                 </div>
             </div>
             <div class="mb-2 row">
+                <label for="email" class="col-sm-2 col-form-label no-border">Email:</label>
+                <div class="col-sm-10">
+                    <p th:text="${userForm.getEmail()}" type="text" readonly class="form-control-plaintext"
+                       id="email">
+                </div>
+            </div>
+            <div class="mb-2 row">
                 <label for="tgBotToken" class="col-sm-2 col-form-label no-border">Tg-token:</label>
                 <div class="col-sm-10">
                     <p th:text="${userForm.getTgBotToken()}" type="text" readonly class="form-control-plaintext"

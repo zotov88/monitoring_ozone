@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static monitoring_ozone.constants.RolesConstants.ADMIN;
 import static monitoring_ozone.constants.RolesConstants.USER;
 import static monitoring_ozone.constants.WebSecurityConstants.AUTH_LIST;
 import static monitoring_ozone.constants.WebSecurityConstants.RESOURCES_WHITE_LIST;

@@ -1,8 +1,6 @@
 package monitoring_ozone.service;
 
-import com.beust.ah.A;
 import monitoring_ozone.model.Product;
-import monitoring_ozone.model.User;
 import monitoring_ozone.repository.ProductRepository;
 import monitoring_ozone.repository.UserRepository;
 import monitoring_ozone.service.notifications.SenderNotifications;

@@ -6,7 +6,7 @@ import monitoring_ozone.repository.StoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StoryService {
@@ -27,5 +27,22 @@ public class StoryService {
 
     public List<Story> getStoryList(Long id) {
         return repository.findAllById(id);
+    }
+
+    public LocalDate getDateFromMap(Map<LocalDate, Integer> map, Integer price) {
+        LocalDate localDate = null;
+        for (LocalDate date : map.keySet()) {
+            if (Objects.equals(map.get(date), price)) {
+                localDate = date;
+            }
+        }
+        return localDate;
+    }
+
+    public int getMinPrice(Collection<Integer> prices) {
+        if (Collections.min(prices) == 0) {
+            prices.removeAll(List.of(0));
+        }
+        return Collections.min(prices);
     }
 }

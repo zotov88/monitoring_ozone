@@ -31,10 +31,16 @@ public class RegistrationController {
     @PostMapping("")
     public String registration(@ModelAttribute(name = "userForm") User user,
                                BindingResult bindingResult) {
-        String login = user.getLogin();
-        if (login.equalsIgnoreCase(ADMIN) ||
-                (userService.getByLogin(login) != null && userService.getByLogin(login).getLogin().equals(login))) {
+        String login = user.getLogin().toLowerCase();
+        String email = user.getEmail().toLowerCase();
+        user.setLogin(login);
+        user.setEmail(email);
+        if (login.equalsIgnoreCase(ADMIN) || (userService.getByLogin(login) != null)) {
             bindingResult.rejectValue("login", "login.error", "Этот логин уже существует");
+            return "registration";
+        }
+        if (userService.getByEmail(email) != null) {
+            bindingResult.rejectValue("email", "email.error", "Этот email уже существует");
             return "registration";
         }
         userService.create(user);

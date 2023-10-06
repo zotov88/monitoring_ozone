@@ -1,5 +1,6 @@
 package monitoring_ozone.service.scannerpage;
 
+import monitoring_ozone.constants.EmptyProductName;
 import monitoring_ozone.constants.XPathConstants;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.utils.StringToInteger;
@@ -17,16 +18,17 @@ public class ScannerPageWithFirefox implements TurningProduct {
         FirefoxDriver driver = new FirefoxDriver();
         driver.get(url);
         Product product = new Product();
-        String name = getWebelement(XPathConstants.titles, driver).getText();
-        if (name.equals("Этот товар закончился")) {
+        String name = getWebelement(XPathConstants.TITLES, driver).getText();
+        if (EmptyProductName.ALL.contains(name)) {
             product.setName(name);
             product.setPrice(0);
             product.setUrl(url);
         } else {
             product.setName(name);
-            product.setPrice(StringToInteger.parseInt(getWebelement(XPathConstants.prices, driver).getText()));
+            product.setPrice(StringToInteger.parseInt(getWebelement(XPathConstants.PRICES, driver).getText()));
             product.setUrl(url);
         }
+
         driver.close();
         return product;
     }
