@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/users")
@@ -60,7 +61,7 @@ public class UserController {
 
     @PostMapping("/remember-password")
     public String rememberPassword(@ModelAttribute("changePasswordForm") User user) {
-        user = userService.getByEmail(user.getEmail());
+        user = userService.getByEmail(user.getEmail().toLowerCase());
         if (Objects.isNull(user)) {
             return "user/notFoundEmail";
         }
@@ -83,5 +84,15 @@ public class UserController {
                                  @ModelAttribute("changePasswordForm") User user) {
         userService.changePassword(uuid, user.getPassword());
         return "redirect:/logout";
+    }
+
+    @GetMapping("/change-password/{userId}")
+    public String changePassword(@PathVariable Long userId,
+                                 Model model) {
+        User user = userService.getById(userId);
+        user.setChangePasswordToken(UUID.randomUUID().toString());
+        model.addAttribute("uuid", user.getChangePasswordToken());
+        userService.update(user);
+        return "user/changePassword";
     }
 }

@@ -54,7 +54,7 @@
                th:if="${#authentication.getPrincipal().getUserId()} == ${userForm.getId()}" class="btn btn-primary"
                th:href="'/users/profile/update/' + ${userForm.getId()}">Редактировать</a>
             <a sec:authorize="isAuthenticated() && hasRole('USER')"
-               th:href="'/users/change-password'"
+               th:href="'/users/change-password/' + ${userForm.getId()}"
                class="btn btn-warning" aria-disabled="true">Изменить пароль</a>
         </div>
     </div>

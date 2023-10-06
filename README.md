@@ -43,3 +43,5 @@
 
 ## Видео с примером работы сервиса
 
+<a href="https://cloud.mail.ru/public/MTWg/NvTPZqaoS" target="_blank">Ссылка</a>
+
