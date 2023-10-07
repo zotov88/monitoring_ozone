@@ -13,8 +13,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             select *
             from ozone.products
             where user_id = :id
+            order by name
             """)
-    List<Product> findAllByUserIdN(Long id);
+    List<Product> findAllByUserIdSortedByName(Long id);
 
     @Query(nativeQuery = true,
     value = """

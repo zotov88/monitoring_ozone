@@ -33,8 +33,8 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public List<Product> getAllByUserId(Long id) {
-        return productRepository.findAllByUserIdN(id);
+    public List<Product> getAllByUserIdSortedByName(Long id) {
+        return productRepository.findAllByUserIdSortedByName(id);
     }
 
     public void update(Product product) {
@@ -51,7 +51,7 @@ public class ProductService {
 
     public void checkProductsAllUsers() {
         for (Long id : productRepository.getDistinctByUserId()) {
-            checkProductsOneUser(getAllByUserId(id), id);
+            checkProductsOneUser(getAllByUserIdSortedByName(id), id);
         }
     }
 

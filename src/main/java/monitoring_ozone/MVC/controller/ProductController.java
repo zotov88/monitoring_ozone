@@ -43,13 +43,13 @@ public class ProductController {
     @GetMapping("/all/{userId}")
     public String allProducts(@PathVariable Long userId,
                               Model model) {
-        model.addAttribute("products", productService.getAllByUserId(userId));
+        model.addAttribute("products", productService.getAllByUserIdSortedByName(userId));
         return "allProducts";
     }
 
     @PostMapping("/all/{userId}")
     public String updateListProducts(@PathVariable Long userId) {
-        productService.checkProductsOneUser(productService.getAllByUserId(userId), userId);
+        productService.checkProductsOneUser(productService.getAllByUserIdSortedByName(userId), userId);
         return "redirect:/products/all/{userId}";
     }
 
