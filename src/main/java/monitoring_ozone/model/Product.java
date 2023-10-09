@@ -31,6 +31,9 @@ public class Product {
     @Column(nullable = false)
     private Integer price;
 
+    @Column(name = "min_price")
+    private Integer minPrice;
+
     @Column(name = "expected")
     private Integer expectedPrice;
 

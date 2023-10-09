@@ -15,4 +15,15 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
             where product_id = :id
             """)
     List<Story> findAllById(Long id);
+
+    @Query(nativeQuery = true,
+    value = """
+            select price
+            from ozone.stories
+            where product_id = :productId
+                and price <> 0
+            order by price
+            limit 1
+            """)
+    Integer findMinPriceByProductId(Long productId);
 }

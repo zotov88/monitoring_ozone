@@ -39,10 +39,14 @@ public class StoryService {
         return localDate;
     }
 
-    public int getMinPrice(Collection<Integer> prices) {
+    public int getMinPriceFromCollection(Collection<Integer> prices) {
         if (Collections.min(prices) == 0) {
             prices.removeAll(List.of(0));
         }
         return Collections.min(prices);
+    }
+
+    public Integer getMinPriceByProductId(Long productId) {
+        return repository.findMinPriceByProductId(productId);
     }
 }

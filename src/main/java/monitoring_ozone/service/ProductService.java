@@ -64,6 +64,7 @@ public class ProductService {
             if (!Objects.equals(previousPrice, updProduct.getPrice())) {
                 storyService.create(product, updProduct.getPrice());
                 product.setPrice(updProduct.getPrice());
+                product.setMinPrice(storyService.getMinPriceByProductId(product.getId()));
                 update(product);
             }
             priceComparison(product, updProduct, previousPrice, cheaperProducts);
@@ -80,7 +81,7 @@ public class ProductService {
 
     private void priceComparison(final Product product,
                                  final Product updProduct,
-                                 final int previousPrice,
+                                 final Integer previousPrice,
                                  final Map<Product, Integer> cheaperProducts) {
         int targetPrice = product.getExpectedPrice() != null ? product.getExpectedPrice() : previousPrice;
         if (updProduct.getPrice() < targetPrice && product.getPrice() != 0) {
@@ -93,8 +94,9 @@ public class ProductService {
         int i = 1;
         for (Product product : changesProducts.keySet()) {
             sb.append(i++).append(". ").append(product.getName())
-                    .append(" подешевел на ").append(changesProducts.get(product))
-                    .append(" рублей. Текущая цена - ").append(product.getPrice()).append(" рублей\n");
+                    .append(" подешевел на ").append(changesProducts.get(product)).append(" р.\n")
+                    .append("Текущая цена: ").append(product.getPrice()).append(" р.\n")
+                    .append("Минимальная цена: ").append(product.getMinPrice()).append(" р.\n");
         }
         return sb.toString();
     }

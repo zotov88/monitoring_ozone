@@ -34,6 +34,7 @@ public class ProductController {
     public String getAndSaveProduct(@ModelAttribute("productForm") Product prod) {
         Product product = scannerPageService.getProduct(prod.getUrl());
         product.setUser(userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()));
+        product.setMinPrice(product.getPrice());
         productService.create(product);
         storyService.create(product, product.getPrice());
         return "redirect:/products/all/" +

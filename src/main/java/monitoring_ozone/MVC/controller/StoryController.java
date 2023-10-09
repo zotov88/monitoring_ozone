@@ -40,11 +40,7 @@ public class StoryController {
 
         }
         Integer maxVal = Collections.max(map.values());
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(map);
-        Integer minVal = storyService.getMinPrice(map.values());
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(map);
+        Integer minVal = storyService.getMinPriceFromCollection(map.values());
         model.addAttribute("keySet", map.keySet());
         model.addAttribute("values", map.values());
         model.addAttribute("graphHeight", maxVal * 1.1);
