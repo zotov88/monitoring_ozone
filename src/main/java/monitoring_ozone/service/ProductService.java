@@ -1,31 +1,33 @@
 package monitoring_ozone.service;
 
+import jakarta.transaction.Transactional;
 import monitoring_ozone.model.Product;
+import monitoring_ozone.model.User;
 import monitoring_ozone.repository.ProductRepository;
-import monitoring_ozone.repository.UserRepository;
 import monitoring_ozone.service.notifications.SenderNotifications;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@Transactional
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
-    private final ScannerPageService scannerPageService;
+    private final UserService userService;
     private final StoryService storyService;
+    private final ScannerPageService scannerPageService;
     private final SenderNotifications notifications;
 
     public ProductService(ProductRepository productRepository,
-                          UserRepository userRepository,
-                          ScannerPageService scannerPageService,
+                          UserService userService,
                           StoryService storyService,
+                          ScannerPageService scannerPageService,
                           SenderNotifications notifications) {
         this.productRepository = productRepository;
-        this.userRepository = userRepository;
-        this.scannerPageService = scannerPageService;
+        this.userService = userService;
         this.storyService = storyService;
+        this.scannerPageService = scannerPageService;
         this.notifications = notifications;
     }
 
@@ -64,12 +66,13 @@ public class ProductService {
                 storyService.create(product, updProduct.getPrice());
                 product.setPrice(updProduct.getPrice());
                 product.setMinPrice(storyService.getMinPriceByProductId(product.getId()));
+                product.setMarket(updProduct.getMarket());
                 update(product);
             }
             priceComparison(product, updProduct, previousPrice, cheaperProducts);
         }
         if (!cheaperProducts.isEmpty()) {
-            notifications.sendAll(userRepository.getReferenceById(userId), createMessage(cheaperProducts));
+            notifications.sendAll(userService.getById(userId), createMessage(cheaperProducts));
         }
     }
 
