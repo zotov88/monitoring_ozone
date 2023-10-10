@@ -55,8 +55,7 @@ public class ProductService {
         }
     }
 
-    public void checkProductsOneUser(List<Product> products,
-                                     Long userId) {
+    public void checkProductsOneUser(List<Product> products, final Long userId) {
         Map<Product, Integer> cheaperProducts = new HashMap<>();
         for (Product product : products) {
             int previousPrice = product.getPrice();
@@ -74,8 +73,7 @@ public class ProductService {
         }
     }
 
-    public void checkProductUser(final Long productId,
-                                 final Long userId) {
+    public void checkProductUser(final Long productId, final Long userId) {
         checkProductsOneUser(new ArrayList<>(List.of(productRepository.getReferenceById(productId))), userId);
     }
 
@@ -93,10 +91,7 @@ public class ProductService {
         StringBuilder sb = new StringBuilder();
         int i = 1;
         for (Product product : changesProducts.keySet()) {
-            sb.append(i++).append(". ").append(product.getName())
-                    .append(" подешевел на ").append(changesProducts.get(product)).append(" р.\n")
-                    .append("Текущая цена: ").append(product.getPrice()).append(" р.\n")
-                    .append("Минимальная цена: ").append(product.getMinPrice()).append(" р.\n");
+            sb.append(i++).append(". ").append(product.getName()).append(" подешевел на ").append(changesProducts.get(product)).append(" р.\n").append("Текущая цена: ").append(product.getPrice()).append(" р.\n").append("Минимальная цена: ").append(product.getMinPrice()).append(" р.\n");
         }
         return sb.toString();
     }

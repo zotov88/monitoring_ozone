@@ -43,4 +43,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "FK_PRODUCT_USER"))
     private User user;
+
+    // сделать nullable = false;
+    @ManyToOne
+    @JoinColumn(name = "market_id", foreignKey = @ForeignKey(name = "FK_PRODUCT_MARKET"))
+    private Market market;
 }
