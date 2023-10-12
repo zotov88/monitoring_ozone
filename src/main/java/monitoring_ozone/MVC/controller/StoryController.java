@@ -49,7 +49,7 @@ public class StoryController {
         model.addAttribute("dateMaxVal", storyService.getDateFromMap(map, maxVal));
         model.addAttribute("dateMinVal", storyService.getDateFromMap(map, minVal));
         model.addAttribute("productName", productService.getOne(id).getName());
-        return "history";
+        return "history/history";
     }
 
 }

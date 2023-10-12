@@ -20,18 +20,6 @@ public class ScannerPageWithFirefox implements TurningProduct {
         FirefoxDriver driver = new FirefoxDriver();
         driver.get(url);
         Product product = new Product();
-        if (url.contains(Markets.OZONE)) {
-            handlerOzonePage(url, product, driver);
-        }
-//        if (url.contains(Markets.WILDBERRIES)) {
-//        }
-        driver.close();
-        return product;
-    }
-
-    private void handlerOzonePage(final String url,
-                                  Product product,
-                                  FirefoxDriver driver) {
         String name = getWebelement(XPathConstants.TITLES, driver).getText();
         product.setName(name);
         product.setUrl(url);
@@ -41,6 +29,8 @@ public class ScannerPageWithFirefox implements TurningProduct {
         } else {
             product.setPrice(StringToInteger.parseInt(getWebelement(XPathConstants.PRICES, driver).getText()));
         }
+        driver.close();
+        return product;
     }
 
     private Market getMarketByUrl(final String url) {

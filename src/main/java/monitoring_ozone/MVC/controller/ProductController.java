@@ -1,10 +1,8 @@
 package monitoring_ozone.MVC.controller;
 
+import jakarta.security.auth.message.AuthException;
 import monitoring_ozone.model.Product;
-import monitoring_ozone.service.ProductService;
-import monitoring_ozone.service.ScannerPageService;
-import monitoring_ozone.service.StoryService;
-import monitoring_ozone.service.UserService;
+import monitoring_ozone.service.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,9 +41,10 @@ public class ProductController {
 
     @GetMapping("/all/{userId}")
     public String allProducts(@PathVariable Long userId,
-                              Model model) {
+                              Model model) throws AuthException {
+        CheckAccessService.checkAccess(userId);
         model.addAttribute("products", productService.getAllByUserIdSortedByName(userId));
-        return "allProducts";
+        return "product/allProducts";
     }
 
     @PostMapping("/all/{userId}")
@@ -72,7 +71,7 @@ public class ProductController {
     public String update(@PathVariable Long productId,
                          Model model) {
         model.addAttribute("productForm", productService.getOne(productId));
-        return "updateProduct";
+        return "product/updateProduct";
     }
 
     @PostMapping("/update")
@@ -85,7 +84,7 @@ public class ProductController {
                 expectedPrice = productUpdated.getExpectedPrice();
             } catch (Exception e) {
                 bindingResult.rejectValue("expectedPrice", "error.expectedPrice", "Введите число");
-                return "updateProduct";
+                return "product/updateProduct";
             }
         }
         foundProduct.setName(productUpdated.getName());

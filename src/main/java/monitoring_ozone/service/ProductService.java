@@ -2,7 +2,6 @@ package monitoring_ozone.service;
 
 import jakarta.transaction.Transactional;
 import monitoring_ozone.model.Product;
-import monitoring_ozone.model.User;
 import monitoring_ozone.repository.ProductRepository;
 import monitoring_ozone.service.notifications.SenderNotifications;
 import org.springframework.stereotype.Service;
@@ -94,7 +93,10 @@ public class ProductService {
         StringBuilder sb = new StringBuilder();
         int i = 1;
         for (Product product : changesProducts.keySet()) {
-            sb.append(i++).append(". ").append(product.getName()).append(" подешевел на ").append(changesProducts.get(product)).append(" р.\n").append("Текущая цена: ").append(product.getPrice()).append(" р.\n").append("Минимальная цена: ").append(product.getMinPrice()).append(" р.\n");
+            sb.append(i++).append(". ")
+                    .append(product.getName()).append(" подешевел на ").append(changesProducts.get(product)).append(" р.\n").
+                    append("Текущая цена: ").append(product.getPrice()).append(" р.\n").
+                    append("Минимальная цена: ").append(product.getMinPrice()).append(" р.\n\n");
         }
         return sb.toString();
     }

@@ -1,7 +1,9 @@
 package monitoring_ozone.MVC.controller;
 
+import jakarta.security.auth.message.AuthException;
 import jakarta.websocket.server.PathParam;
 import monitoring_ozone.model.User;
+import monitoring_ozone.service.CheckAccessService;
 import monitoring_ozone.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,17 +24,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/profile/{id}")
-    public String profile(@PathVariable Long id,
-                          Model model) {
-        model.addAttribute("userForm", userService.getById(id));
+    @GetMapping("/profile/{userId}")
+    public String profile(@PathVariable Long userId,
+                          Model model) throws AuthException {
+        CheckAccessService.checkAccess(userId);
+        model.addAttribute("userForm", userService.getById(userId));
         return "user/profile";
     }
 
-    @GetMapping("/profile/update/{id}")
-    public String update(@PathVariable Long id,
-                         Model model) {
-        model.addAttribute("userForm", userService.getById(id));
+    @GetMapping("/profile/update/{userId}")
+    public String update(@PathVariable Long userId,
+                         Model model) throws AuthException {
+        CheckAccessService.checkAccess(userId);
+        model.addAttribute("userForm", userService.getById(userId));
         return "user/updateUser";
     }
 
@@ -88,7 +92,8 @@ public class UserController {
 
     @GetMapping("/change-password/{userId}")
     public String changePassword(@PathVariable Long userId,
-                                 Model model) {
+                                 Model model) throws AuthException {
+        CheckAccessService.checkAccess(userId);
         User user = userService.getById(userId);
         user.setChangePasswordToken(UUID.randomUUID().toString());
         model.addAttribute("uuid", user.getChangePasswordToken());
