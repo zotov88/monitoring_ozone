@@ -3,6 +3,8 @@ package monitoring_ozone.MVC.controller;
 import jakarta.security.auth.message.AuthException;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.service.*;
+import monitoring_ozone.util.checkaccess.CheckAccess;
+import monitoring_ozone.util.scannerpage.ScannerPage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,22 +17,22 @@ public class ProductController {
 
     private final ProductService productService;
     private final UserService userService;
-    private final ScannerPageService scannerPageService;
+    private final ScannerPage scannerPage;
     private final StoryService storyService;
 
     public ProductController(ProductService productService,
                              UserService userService,
-                             ScannerPageService scannerPageService,
+                             ScannerPage scannerPage,
                              StoryService storyService) {
         this.productService = productService;
         this.userService = userService;
-        this.scannerPageService = scannerPageService;
+        this.scannerPage = scannerPage;
         this.storyService = storyService;
     }
 
     @PostMapping("/add")
     public String getAndSaveProduct(@ModelAttribute("productForm") Product prod) {
-        Product product = scannerPageService.getProduct(prod.getUrl());
+        Product product = scannerPage.scanPage(prod.getUrl());
         product.setUser(userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()));
         product.setMinPrice(product.getPrice());
         productService.create(product);
@@ -42,7 +44,7 @@ public class ProductController {
     @GetMapping("/all/{userId}")
     public String allProducts(@PathVariable Long userId,
                               Model model) throws AuthException {
-        CheckAccessService.checkAccess(userId);
+        CheckAccess.checkAccess(userId);
         model.addAttribute("products", productService.getAllByUserIdSortedByName(userId));
         return "product/allProducts";
     }

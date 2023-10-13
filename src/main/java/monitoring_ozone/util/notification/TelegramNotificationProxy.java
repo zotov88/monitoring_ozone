@@ -1,4 +1,4 @@
-package monitoring_ozone.service.notifications;
+package monitoring_ozone.util.notification;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.SendMessage;

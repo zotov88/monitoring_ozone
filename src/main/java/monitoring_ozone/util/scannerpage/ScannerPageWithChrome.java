@@ -1,23 +1,25 @@
-package monitoring_ozone.service.scannerpage;
+package monitoring_ozone.util.scannerpage;
 
 import monitoring_ozone.constants.EmptyProductName;
 import monitoring_ozone.constants.Markets;
 import monitoring_ozone.constants.XPathConstants;
 import monitoring_ozone.model.Market;
 import monitoring_ozone.model.Product;
-import monitoring_ozone.utils.StringToInteger;
+import monitoring_ozone.util.atoi.StringToInteger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ScannerPageWithFirefox implements TurningProduct {
+public class ScannerPageWithChrome implements TurningProduct {
 
     @Override
     public Product getProduct(final String url) {
-        FirefoxDriver driver = new FirefoxDriver();
+        ChromeOptions options = new ChromeOptions().addArguments("--remote-allow-origins=*");
+        ChromeDriver driver = new ChromeDriver(options);
         driver.get(url);
         Product product = new Product();
         String name = getWebelement(XPathConstants.TITLES, driver).getText();
@@ -40,7 +42,7 @@ public class ScannerPageWithFirefox implements TurningProduct {
     }
 
     private WebElement getWebelement(String[] elements,
-                                     FirefoxDriver driver) {
+                                     ChromeDriver driver) {
         WebElement webElement = null;
         for (String element : elements) {
             try {

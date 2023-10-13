@@ -4,7 +4,7 @@ import monitoring_ozone.constants.MailConstants;
 import monitoring_ozone.model.Role;
 import monitoring_ozone.model.User;
 import monitoring_ozone.repository.UserRepository;
-import monitoring_ozone.service.mailutil.MailUtil;
+import monitoring_ozone.util.mailutil.MailUtil;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

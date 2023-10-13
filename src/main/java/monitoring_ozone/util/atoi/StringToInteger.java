@@ -1,4 +1,4 @@
-package monitoring_ozone.utils;
+package monitoring_ozone.util.atoi;
 
 public class StringToInteger {
 

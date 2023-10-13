@@ -3,7 +3,7 @@ package monitoring_ozone.MVC.controller;
 import jakarta.security.auth.message.AuthException;
 import jakarta.websocket.server.PathParam;
 import monitoring_ozone.model.User;
-import monitoring_ozone.service.CheckAccessService;
+import monitoring_ozone.util.checkaccess.CheckAccess;
 import monitoring_ozone.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping("/profile/{userId}")
     public String profile(@PathVariable Long userId,
                           Model model) throws AuthException {
-        CheckAccessService.checkAccess(userId);
+        CheckAccess.checkAccess(userId);
         model.addAttribute("userForm", userService.getById(userId));
         return "user/profile";
     }
@@ -35,7 +35,7 @@ public class UserController {
     @GetMapping("/profile/update/{userId}")
     public String update(@PathVariable Long userId,
                          Model model) throws AuthException {
-        CheckAccessService.checkAccess(userId);
+        CheckAccess.checkAccess(userId);
         model.addAttribute("userForm", userService.getById(userId));
         return "user/updateUser";
     }
@@ -93,7 +93,7 @@ public class UserController {
     @GetMapping("/change-password/{userId}")
     public String changePassword(@PathVariable Long userId,
                                  Model model) throws AuthException {
-        CheckAccessService.checkAccess(userId);
+        CheckAccess.checkAccess(userId);
         User user = userService.getById(userId);
         user.setChangePasswordToken(UUID.randomUUID().toString());
         model.addAttribute("uuid", user.getChangePasswordToken());

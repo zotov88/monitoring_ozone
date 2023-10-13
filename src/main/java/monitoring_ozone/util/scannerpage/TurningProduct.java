@@ -1,4 +1,4 @@
-package monitoring_ozone.service.scannerpage;
+package monitoring_ozone.util.scannerpage;
 
 import monitoring_ozone.model.Product;
 

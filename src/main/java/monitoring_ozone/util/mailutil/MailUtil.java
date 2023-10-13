@@ -1,4 +1,4 @@
-package monitoring_ozone.service.mailutil;
+package monitoring_ozone.util.mailutil;
 
 import org.springframework.mail.SimpleMailMessage;
 

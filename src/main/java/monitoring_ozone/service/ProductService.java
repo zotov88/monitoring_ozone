@@ -3,7 +3,8 @@ package monitoring_ozone.service;
 import jakarta.transaction.Transactional;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.repository.ProductRepository;
-import monitoring_ozone.service.notifications.SenderNotifications;
+import monitoring_ozone.util.notification.SenderNotifications;
+import monitoring_ozone.util.scannerpage.ScannerPage;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,18 +16,18 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final UserService userService;
     private final StoryService storyService;
-    private final ScannerPageService scannerPageService;
+    private final ScannerPage scannerPage;
     private final SenderNotifications notifications;
 
     public ProductService(ProductRepository productRepository,
                           UserService userService,
                           StoryService storyService,
-                          ScannerPageService scannerPageService,
+                          ScannerPage scannerPage,
                           SenderNotifications notifications) {
         this.productRepository = productRepository;
         this.userService = userService;
         this.storyService = storyService;
-        this.scannerPageService = scannerPageService;
+        this.scannerPage = scannerPage;
         this.notifications = notifications;
     }
 
@@ -60,7 +61,7 @@ public class ProductService {
         Map<Product, Integer> cheaperProducts = new HashMap<>();
         for (Product product : products) {
             int previousPrice = product.getPrice();
-            Product updProduct = scannerPageService.getProduct(product.getUrl());
+            Product updProduct = scannerPage.scanPage(product.getUrl());
             if (!Objects.equals(previousPrice, updProduct.getPrice())) {
                 storyService.create(product, updProduct.getPrice());
                 product.setPrice(updProduct.getPrice());

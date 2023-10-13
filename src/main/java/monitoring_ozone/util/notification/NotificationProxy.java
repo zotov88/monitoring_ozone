@@ -1,4 +1,4 @@
-package monitoring_ozone.service.notifications;
+package monitoring_ozone.util.notification;
 
 import monitoring_ozone.model.User;
 
