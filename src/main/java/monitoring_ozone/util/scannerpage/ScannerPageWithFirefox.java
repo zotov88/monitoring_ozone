@@ -22,15 +22,25 @@ public class ScannerPageWithFirefox implements TurningProduct {
         FirefoxDriver driver = new FirefoxDriver();
         driver.get(url);
         Product product = new Product();
-        String name = getWebelement(XPathConstants.TITLES, driver).getText();
-        product.setName(name);
+        WebElement webElement = getWebelement(XPathConstants.TITLES, driver);
+        if (webElement == null) {
+            driver.close();
+            return null;
+        }
+        product.setName(webElement.getText());
         product.setUrl(url);
         product.setMarket(getMarketByUrl(url));
-        if (EmptyProductName.ALL.contains(name)) {
+        if (EmptyProductName.ALL.contains(webElement.getText())) {
             product.setPrice(0);
         } else {
-            product.setPrice(StringToInteger.parseInt(getWebelement(XPathConstants.PRICES, driver).getText()));
+            webElement = getWebelement(XPathConstants.PRICES, driver);
+            if (webElement == null) {
+                driver.close();
+                return null;
+            }
+            product.setPrice(StringToInteger.parseInt(webElement.getText()));
         }
+
         driver.close();
         return product;
     }

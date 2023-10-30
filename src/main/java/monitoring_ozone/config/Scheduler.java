@@ -13,7 +13,7 @@ public class Scheduler {
         this.productService = productService;
     }
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 0 9-22/3 * * *")
     public void updateListOfProducts() {
         productService.checkProductsAllUsers();
     }

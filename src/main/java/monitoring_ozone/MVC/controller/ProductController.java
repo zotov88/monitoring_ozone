@@ -33,6 +33,9 @@ public class ProductController {
     @PostMapping("/add")
     public String getAndSaveProduct(@ModelAttribute("productForm") Product prod) {
         Product product = scannerPage.scanPage(prod.getUrl());
+        if (product == null) {
+            return "product/failureAdd";
+        }
         product.setUser(userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()));
         product.setMinPrice(product.getPrice());
         productService.create(product);

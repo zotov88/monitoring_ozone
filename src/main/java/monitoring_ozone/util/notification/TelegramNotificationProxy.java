@@ -13,4 +13,10 @@ public final class TelegramNotificationProxy implements NotificationProxy {
         TelegramBot bot = new TelegramBot(user.getTgBotToken());
         bot.execute(new SendMessage(user.getTgChatId(), message));
     }
+
+    @Override
+    public void sendToAdmin(String message) {
+        TelegramBot bot = new TelegramBot("bot-token");
+        bot.execute(new SendMessage(123456789L, message));
+    }
 }

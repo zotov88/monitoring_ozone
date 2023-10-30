@@ -42,8 +42,7 @@ public class ScannerPageWithChrome implements TurningProduct {
         return market;
     }
 
-    private WebElement getWebelement(String[] elements,
-                                     ChromeDriver driver) {
+    private WebElement getWebelement(String[] elements, ChromeDriver driver) {
         WebElement webElement = null;
         for (String element : elements) {
             try {

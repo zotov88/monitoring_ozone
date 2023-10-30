@@ -62,6 +62,9 @@ public class ProductService {
         for (Product product : products) {
             int previousPrice = product.getPrice();
             Product updProduct = scannerPage.scanPage(product.getUrl());
+            if (updProduct == null) {
+                continue;
+            }
             if (!Objects.equals(previousPrice, updProduct.getPrice())) {
                 storyService.create(product, updProduct.getPrice());
                 product.setPrice(updProduct.getPrice());
