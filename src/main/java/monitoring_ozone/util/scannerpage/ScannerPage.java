@@ -1,5 +1,6 @@
 package monitoring_ozone.util.scannerpage;
 
+import monitoring_ozone.constants.Errors;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.util.notification.NotificationProxy;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class ScannerPage {
     public Product scanPage(String url) {
         Product product = turningProduct.getProduct(url);
         if (product == null) {
-            notificationProxy.sendToAdmin("Ошибка при сохранении товара " + url);
+            notificationProxy.sendToAdmin(Errors.Message.PRODUCT_PROCESSING_ERROR + url);
         }
         return product;
     }
