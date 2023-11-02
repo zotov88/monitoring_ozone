@@ -16,7 +16,7 @@ public final class TelegramNotificationProxy implements NotificationProxy {
 
     @Override
     public void sendToAdmin(String message) {
-        TelegramBot bot = new TelegramBot("token");
-        bot.execute(new SendMessage(123456789L, message));
+        TelegramBot bot = new TelegramBot("5697984225:AAFoIt1WoiRi7w2AkQgYpn6VaWp_DBw9SPU");
+        bot.execute(new SendMessage(613276132L, message));
     }
 }
