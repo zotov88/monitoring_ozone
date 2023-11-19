@@ -6,3 +6,4 @@ insert into ozone.markets(title)
 values ('ozone'),
        ('wildberries');
 
+
