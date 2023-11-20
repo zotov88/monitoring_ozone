@@ -55,14 +55,13 @@ public class StoryService {
         return storyRecordsMap;
     }
 
-    public Map<LocalDate, Integer> getLast20StoryRecordsMap(Map<LocalDate, Integer> storyRecordsMap) {
+    public Map<LocalDate, Integer> getLast20StoryRecordsMap(Map<LocalDate, Integer> storyRecordsMap, int size) {
         Map<LocalDate, Integer> last20StoryRecordsMap = new TreeMap<>();
         Map<LocalDate, Integer> reverseMap = new TreeMap<>(Collections.reverseOrder());
         reverseMap.putAll(storyRecordsMap);
-        int count = 20;
         for (LocalDate localDate : reverseMap.keySet()) {
             last20StoryRecordsMap.put(localDate, reverseMap.get(localDate));
-            if (--count == 0) {
+            if (--size == 0) {
                 break;
             }
         }

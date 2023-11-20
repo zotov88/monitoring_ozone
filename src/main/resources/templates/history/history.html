@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
@@ -10,64 +9,83 @@
 <body>
 <div layout:fragment="content">
     <div class="container">
-        <h2 align="center" th:text ="${productName}"></h2>
-
         <div id="container"></div>
     </div>
     <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
-    <script
-            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script th:inline="javascript">
-        $(function () {
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'area'
-                },
+
+        const color1 = '#f80606'
+        const color2 = '#37ff23'
+        const values = [[${values}]]
+        const options = {
+            title: {
+                text: [[${productName}]]
+            },
+            series: [{
+                name: 'Data',
+                data: values.map((v) => v === [[${maxX}]] ? {color: color1, y: v} :
+                                        v === [[${minX}]] ? {color: color2, y: v} :
+                                        {y: v})
+            }],
+            chart: {
+                type: 'spline',
+                backgroundColor: '#e7fcf8'
+            },
+            xAxis: {
+                categories: [[${keySet}]],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                max: [[${graphHeight}]],
                 title: {
-                    text: ''
-                },
-                subtitle: {
-                    text: ''
-                },
-                xAxis: {
-                    categories: [[${keySet}]],
-                    crosshair: true
-                },
-                yAxis: {
-                    min: 0,
-                    max: [[${graphHeight}]],
-                    title: {
-                        text: 'Price'
-                    }
-                },
-                tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0"> </td>' +
-                        '<td style="padding:0"><b>{point.y:.0f} руб</b></td></tr>',
-                    footerFormat: '</table>',
-                    shared: true,
-                    useHTML: true
-                },
-                plotOptions: {
-                    column: {
-                        pointPadding: 0.2,
-                        borderWidth: 0
-                    }
-                },
-                series: [{
-                    name: 'Date',
-                    data: [[${values}]]
-                }]
-            });
-        });
+                    text: 'Price'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0"> </td>' +
+                    '<td style="padding:0"><b>{point.y:.0f} руб</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            }
+        }
+
+        $(function () {
+            Highcharts.chart('container', options)
+        })
+
     </script>
-    <br><br>
+    <br>
     <p th:text="'max: ' + ${max} + ' (' + ${dateMaxVal} + ')'"></p>
     <p th:text="'min: ' + ${min} + ' (' + ${dateMinVal} + ')'"></p>
+    <br/>
+    <form method="GET" th:action="@{'/story/' + ${productId} + '?size=' + ${sizeStory}}">
+        <div>
+            <p>Количество последних записей в истории</p>
+            <div>
+                <label>
+                    <input name="size" type="number" max="500" min="1" class="form-control"/>
+                </label>
+                <small id="usernameHelp" class="form-text text-muted"></small>
+            </div>
+            <br/>
+            <button class="btn btn-sm btn-primary" type="submit">Применить</button>
+        </div>
+    </form>
+    <br/>
 </div>
 </body>
 </html>
