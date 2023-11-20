@@ -20,7 +20,7 @@ public class Market {
 
     private String title;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "market", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "market", cascade = CascadeType.REMOVE)
     private List<Product> products;
 
 }

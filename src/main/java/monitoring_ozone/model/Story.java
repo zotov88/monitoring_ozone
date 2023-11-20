@@ -16,7 +16,6 @@ public class Story {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true)
     private Long id;
 
     private Integer price;

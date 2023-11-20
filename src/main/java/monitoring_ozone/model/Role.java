@@ -18,6 +18,6 @@ public class Role {
 
     private String title;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE)
     private List<User> users;
 }

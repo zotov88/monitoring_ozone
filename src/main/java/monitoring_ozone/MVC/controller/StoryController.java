@@ -1,6 +1,5 @@
 package monitoring_ozone.MVC.controller;
 
-import monitoring_ozone.model.Story;
 import monitoring_ozone.service.ProductService;
 import monitoring_ozone.service.StoryService;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Controller
 @RequestMapping("/story")
@@ -27,27 +25,22 @@ public class StoryController {
         this.productService = productService;
     }
 
-    @GetMapping("/{id}")
-    public String productStory(@PathVariable Long id, Model model) {
-        Map<LocalDate, Integer> dateWithPricesMap = new TreeMap<>();
-        for (Story story : storyService.getStoryList(id)) {
-            if (!dateWithPricesMap.containsKey(story.getDate())) {
-                dateWithPricesMap.put(story.getDate(), story.getPrice());
-            } else if (story.getPrice() < dateWithPricesMap.get(story.getDate())) {
-                dateWithPricesMap.put(story.getDate(), story.getPrice());
-            }
-        }
+    @GetMapping("/{productId}")
+    public String productStory(@PathVariable Long productId, Model model) {
+        Map<LocalDate, Integer> storyRecordsMap = storyService.getStoryRecordsMap(productId);
+        Map<LocalDate, Integer> last20StoryRecordsMap = storyService.getLast20StoryRecordsMap(storyRecordsMap);
 
-        Integer maxVal = Collections.max(dateWithPricesMap.values());
-        Integer minVal = storyService.getMinPriceFromCollection(dateWithPricesMap.values());
-        model.addAttribute("keySet", dateWithPricesMap.keySet());
-        model.addAttribute("values", dateWithPricesMap.values());
+        int maxVal = Collections.max(storyRecordsMap.values());
+        int minVal = Collections.min(storyRecordsMap.values());
+
+        model.addAttribute("keySet", last20StoryRecordsMap.keySet());
+        model.addAttribute("values", last20StoryRecordsMap.values());
         model.addAttribute("graphHeight", maxVal * 1.1);
         model.addAttribute("max", maxVal);
-        model.addAttribute("min", Collections.min(dateWithPricesMap.values()));
-        model.addAttribute("dateMaxVal", storyService.getDateFromMap(dateWithPricesMap, maxVal));
-        model.addAttribute("dateMinVal", storyService.getDateFromMap(dateWithPricesMap, minVal));
-        model.addAttribute("productName", productService.getOne(id).getName());
+        model.addAttribute("min", Collections.min(storyRecordsMap.values()));
+        model.addAttribute("dateMaxVal", storyService.getDateFromMap(storyRecordsMap, maxVal));
+        model.addAttribute("dateMinVal", storyService.getDateFromMap(storyRecordsMap, minVal));
+        model.addAttribute("productName", productService.getOne(productId).getName());
         return "history/history";
     }
 

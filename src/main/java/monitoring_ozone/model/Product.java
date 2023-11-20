@@ -37,7 +37,7 @@ public class Product {
     @Column(name = "expected")
     private Integer expectedPrice;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Story> stories;
 
     @ManyToOne

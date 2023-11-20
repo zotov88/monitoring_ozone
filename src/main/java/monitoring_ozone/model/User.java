@@ -39,7 +39,7 @@ public class User {
     @Column(name = "tg_chat_id", nullable = false)
     private Long tgChatId;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Product> products;
 
     @ManyToOne

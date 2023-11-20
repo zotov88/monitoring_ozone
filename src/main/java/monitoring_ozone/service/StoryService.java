@@ -39,14 +39,33 @@ public class StoryService {
         return localDate;
     }
 
-    public int getMinPriceFromCollection(Collection<Integer> prices) {
-        if (Collections.min(prices) == 0) {
-            prices.removeAll(List.of(0));
-        }
-        return Collections.min(prices);
-    }
-
     public Integer getMinPriceByProductId(Long productId) {
         return repository.findMinPriceByProductId(productId);
+    }
+
+    public Map<LocalDate, Integer> getStoryRecordsMap(Long productId) {
+        Map<LocalDate, Integer> storyRecordsMap = new TreeMap<>();
+        for (Story story : getStoryList(productId)) {
+            if (!storyRecordsMap.containsKey(story.getDate())) {
+                storyRecordsMap.put(story.getDate(), story.getPrice());
+            } else if (story.getPrice() < storyRecordsMap.get(story.getDate())) {
+                storyRecordsMap.put(story.getDate(), story.getPrice());
+            }
+        }
+        return storyRecordsMap;
+    }
+
+    public Map<LocalDate, Integer> getLast20StoryRecordsMap(Map<LocalDate, Integer> storyRecordsMap) {
+        Map<LocalDate, Integer> last20StoryRecordsMap = new TreeMap<>();
+        Map<LocalDate, Integer> reverseMap = new TreeMap<>(Collections.reverseOrder());
+        reverseMap.putAll(storyRecordsMap);
+        int count = 20;
+        for (LocalDate localDate : reverseMap.keySet()) {
+            last20StoryRecordsMap.put(localDate, reverseMap.get(localDate));
+            if (--count == 0) {
+                break;
+            }
+        }
+        return last20StoryRecordsMap;
     }
 }
