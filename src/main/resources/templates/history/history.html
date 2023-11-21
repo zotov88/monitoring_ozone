@@ -63,11 +63,9 @@
             Highcharts.chart('container', options)
         })
     </script>
-
-
-        <span th:text="'max: ' + ${max} + ' (' + ${dateMaxVal} + ')'"></span>
-        <span th:text="'min: ' + ${min} + ' (' + ${dateMinVal} + ')'"></span>
-
+        <p th:text="'max: ' + ${max} + ' (' + ${dateMaxVal} + ')'"></p>
+        <p th:text="'min: ' + ${min} + ' (' + ${dateMinVal} + ')'"></p>
+    <br/>
 
     <form method="GET" th:action="@{'/story/' + ${productId} + '?size='}">
         <div>
