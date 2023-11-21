@@ -29,8 +29,8 @@
             series: [{
                 name: 'Data',
                 data: values.map((v) => v === [[${maxX}]] ? {color: color1, marker: {radius: 6}, y: v} :
-                    v === [[${minX}]] ? {color: color2, marker: {radius: 6}, y: v} :
-                        {y: v}),
+                                        v === [[${minX}]] ? {color: color2, marker: {radius: 6}, y: v} :
+                                         {y: v}),
                 lineWidth: 2,
 
             }],
@@ -43,7 +43,7 @@
                 crosshair: true
             },
             yAxis: {
-                min: 0,
+                min: [[${graphStart}]],
                 max: [[${graphHeight}]],
                 title: {
                     text: 'Price'
@@ -62,6 +62,7 @@
         $(function () {
             Highcharts.chart('container', options)
         })
+
     </script>
         <p th:text="'max: ' + ${max} + ' (' + ${dateMaxVal} + ')'"></p>
         <p th:text="'min: ' + ${min} + ' (' + ${dateMinVal} + ')'"></p>

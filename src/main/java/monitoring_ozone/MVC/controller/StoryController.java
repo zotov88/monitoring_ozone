@@ -35,13 +35,17 @@ public class StoryController {
         Map<LocalDate, Integer> lastXStoryRecordsMap = storyService.getLast20StoryRecordsMap(storyRecordsMap, size);
         int maxVal = Collections.max(storyRecordsMap.values());
         int minVal = Collections.min(storyRecordsMap.values());
+        int maxValLastXValues = Collections.max(lastXStoryRecordsMap.values());
+        int minValLastXValues = Collections.min(lastXStoryRecordsMap.values());
+
         model.addAttribute("keySet", lastXStoryRecordsMap.keySet());
         model.addAttribute("values", lastXStoryRecordsMap.values());
-        model.addAttribute("graphHeight", Collections.max(lastXStoryRecordsMap.values()) * 1.01);
+        model.addAttribute("graphHeight", maxValLastXValues * 1.01);
+        model.addAttribute("graphStart", minValLastXValues * 0.99);
         model.addAttribute("max", maxVal);
         model.addAttribute("min", minVal);
-        model.addAttribute("maxX", Collections.max(lastXStoryRecordsMap.values()));
-        model.addAttribute("minX", Collections.min(lastXStoryRecordsMap.values()));
+        model.addAttribute("maxX", maxValLastXValues);
+        model.addAttribute("minX", minValLastXValues);
         model.addAttribute("dateMaxVal", storyService.getDateFromMap(storyRecordsMap, maxVal));
         model.addAttribute("dateMinVal", storyService.getDateFromMap(storyRecordsMap, minVal));
         model.addAttribute("productName", productService.getOne(productId).getName());
