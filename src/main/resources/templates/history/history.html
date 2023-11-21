@@ -28,9 +28,11 @@
             },
             series: [{
                 name: 'Data',
-                data: values.map((v) => v === [[${maxX}]] ? {color: color1, y: v} :
-                                        v === [[${minX}]] ? {color: color2, y: v} :
-                                        {y: v})
+                data: values.map((v) => v === [[${maxX}]] ? {color: color1, marker: {radius: 6}, y: v} :
+                    v === [[${minX}]] ? {color: color2, marker: {radius: 6}, y: v} :
+                        {y: v}),
+                lineWidth: 2,
+
             }],
             chart: {
                 type: 'spline',
@@ -54,25 +56,20 @@
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
             }
         }
 
         $(function () {
             Highcharts.chart('container', options)
         })
-
     </script>
-    <br>
-    <p th:text="'max: ' + ${max} + ' (' + ${dateMaxVal} + ')'"></p>
-    <p th:text="'min: ' + ${min} + ' (' + ${dateMinVal} + ')'"></p>
-    <br/>
-    <form method="GET" th:action="@{'/story/' + ${productId} + '?size=' + ${sizeStory}}">
+
+
+        <span th:text="'max: ' + ${max} + ' (' + ${dateMaxVal} + ')'"></span>
+        <span th:text="'min: ' + ${min} + ' (' + ${dateMinVal} + ')'"></span>
+
+
+    <form method="GET" th:action="@{'/story/' + ${productId} + '?size='}">
         <div>
             <p>Количество последних записей в истории</p>
             <div>
@@ -83,6 +80,13 @@
             </div>
             <br/>
             <button class="btn btn-sm btn-primary" type="submit">Применить</button>
+        </div>
+    </form>
+    <br/>
+    <form method="GET" th:action="@{'/story/' + ${productId} + '?size='}">
+        <div>
+            <input name="size" type="hidden" th:value="${allStory}" max="500" min="1" class="form-control"/>
+            <button class="btn btn-sm btn-primary" type="submit">Вся история</button>
         </div>
     </form>
     <br/>

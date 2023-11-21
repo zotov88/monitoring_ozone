@@ -45,6 +45,7 @@ public class StoryController {
         model.addAttribute("dateMaxVal", storyService.getDateFromMap(storyRecordsMap, maxVal));
         model.addAttribute("dateMinVal", storyService.getDateFromMap(storyRecordsMap, minVal));
         model.addAttribute("productName", productService.getOne(productId).getName());
+        model.addAttribute("allStory", storyRecordsMap.size());
         model.addAttribute("sizeStory", size);
 
         return "history/history";
