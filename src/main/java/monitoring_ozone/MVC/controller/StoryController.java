@@ -2,6 +2,8 @@ package monitoring_ozone.MVC.controller;
 
 import monitoring_ozone.service.ProductService;
 import monitoring_ozone.service.StoryService;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @Controller
+@Scope("singleton")
 @RequestMapping("/story")
 public class StoryController {
 
