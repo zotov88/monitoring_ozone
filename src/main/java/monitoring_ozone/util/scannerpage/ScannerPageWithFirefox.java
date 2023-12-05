@@ -6,6 +6,7 @@ import monitoring_ozone.constants.XPathConstants;
 import monitoring_ozone.model.Market;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.util.atoi.StringToInteger;
+import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -13,14 +14,17 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import java.io.*;
+
+import static monitoring_ozone.constants.Errors.Message.ROBOT_CHECK;
+
 @Component
 @Primary
 public class ScannerPageWithFirefox implements TurningProduct {
 
     @Override
     public Product getProduct(final String url) {
-        FirefoxDriver driver = new FirefoxDriver();
-        driver.get(url);
+        FirefoxDriver driver = getFirefoxDriver(url);
         Product product = new Product();
         WebElement webElement = getWebelement(XPathConstants.TITLES, driver);
         if (webElement == null) {
@@ -43,6 +47,17 @@ public class ScannerPageWithFirefox implements TurningProduct {
 
         driver.close();
         return product;
+    }
+
+    private static FirefoxDriver getFirefoxDriver(String url) {
+        FirefoxDriver driver = new FirefoxDriver();
+        driver.get(url);
+        while (driver.getPageSource().contains(ROBOT_CHECK)) {
+            driver.close();
+            driver = new FirefoxDriver();
+            driver.get(url);
+        }
+        return driver;
     }
 
     private Market getMarketByUrl(final String url) {

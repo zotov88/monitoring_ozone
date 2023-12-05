@@ -8,5 +8,6 @@ public interface Errors {
 
     class Message {
         public static final String PRODUCT_PROCESSING_ERROR = "Ошибка при обработке товара ";
+        public static final String ROBOT_CHECK = "We need to make sure that you are not a robot";
     }
 }
