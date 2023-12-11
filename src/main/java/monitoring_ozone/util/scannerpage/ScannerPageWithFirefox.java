@@ -6,15 +6,12 @@ import monitoring_ozone.constants.XPathConstants;
 import monitoring_ozone.model.Market;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.util.atoi.StringToInteger;
-import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-
-import java.io.*;
 
 import static monitoring_ozone.constants.Errors.Message.ROBOT_CHECK;
 

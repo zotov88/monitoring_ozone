@@ -18,8 +18,9 @@ public class ScannerPageWithChrome implements TurningProduct {
 
     @Override
     public Product getProduct(final String url) {
-        ChromeOptions options = new ChromeOptions().addArguments("--remote-allow-origins=*");
-        ChromeDriver driver = new ChromeDriver(options);
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        ChromeDriver driver = new ChromeDriver();
         driver.get(url);
         Product product = new Product();
         String name = getWebelement(XPathConstants.TITLES, driver).getText();
