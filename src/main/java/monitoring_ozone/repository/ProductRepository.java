@@ -3,7 +3,6 @@ package monitoring_ozone.repository;
 import monitoring_ozone.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
