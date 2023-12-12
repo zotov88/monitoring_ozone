@@ -10,18 +10,20 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import static monitoring_ozone.constants.Errors.Message.ROBOT_CHECK;
 
 @Component
-@Primary
+//@Primary
 public class ScannerPageWithFirefox implements TurningProduct {
 
     @Override
     public Product getProduct(final String url) {
         FirefoxDriver driver = getFirefoxDriver(url);
+        driver.manage().window().fullscreen();
         Product product = new Product();
         WebElement webElement = getWebelement(XPathConstants.TITLES, driver);
         if (webElement == null) {
@@ -41,17 +43,20 @@ public class ScannerPageWithFirefox implements TurningProduct {
             }
             product.setPrice(StringToInteger.parseInt(webElement.getText()));
         }
-
         driver.close();
         return product;
     }
 
     private static FirefoxDriver getFirefoxDriver(String url) {
-        FirefoxDriver driver = new FirefoxDriver();
+        FirefoxOptions options = new FirefoxOptions();
+//        options.addArguments("--headless");
+        options.addArguments("--width=800");
+        options.addArguments("--height=600");
+        FirefoxDriver driver = new FirefoxDriver(options);
         driver.get(url);
         while (driver.getPageSource().contains(ROBOT_CHECK)) {
             driver.close();
-            driver = new FirefoxDriver();
+            driver = new FirefoxDriver(options);
             driver.get(url);
         }
         return driver;
