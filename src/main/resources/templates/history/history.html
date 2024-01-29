@@ -27,7 +27,7 @@
                 text: [[${productName}]]
             },
             series: [{
-                name: 'Data',
+                name: 'Date',
                 data: values.map((v) => v === [[${maxX}]] ? {color: color1, marker: {radius: 6}, y: v} :
                                         v === [[${minX}]] ? {color: color2, marker: {radius: 6}, y: v} :
                                          {y: v}),

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import static monitoring_ozone.constants.Errors.Message.ROBOT_CHECK;
 
 @Component
-@Primary
+//@Primary
 public class ScannerPageWithChrome implements TurningProduct {
 
     @Override

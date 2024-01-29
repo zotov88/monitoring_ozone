@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import static monitoring_ozone.constants.Errors.Message.ROBOT_CHECK;
 
 @Component
-//@Primary
+@Primary
 public class ScannerPageWithFirefox implements TurningProduct {
 
     @Override
@@ -50,8 +50,8 @@ public class ScannerPageWithFirefox implements TurningProduct {
     private static FirefoxDriver getFirefoxDriver(String url) {
         FirefoxOptions options = new FirefoxOptions();
 //        options.addArguments("--headless");
-        options.addArguments("--width=800");
-        options.addArguments("--height=600");
+//        options.addArguments("--width=800");
+//        options.addArguments("--height=600");
         FirefoxDriver driver = new FirefoxDriver(options);
         driver.get(url);
         while (driver.getPageSource().contains(ROBOT_CHECK)) {
