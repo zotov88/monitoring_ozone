@@ -1,6 +1,7 @@
 package monitoring_ozone.service;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.repository.ProductRepository;
 import monitoring_ozone.util.notification.SenderNotifications;
@@ -11,6 +12,7 @@ import java.util.*;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
@@ -18,18 +20,6 @@ public class ProductService {
     private final StoryService storyService;
     private final ScannerPage scannerPage;
     private final SenderNotifications notifications;
-
-    public ProductService(ProductRepository productRepository,
-                          UserService userService,
-                          StoryService storyService,
-                          ScannerPage scannerPage,
-                          SenderNotifications notifications) {
-        this.productRepository = productRepository;
-        this.userService = userService;
-        this.storyService = storyService;
-        this.scannerPage = scannerPage;
-        this.notifications = notifications;
-    }
 
     public void create(Product product) {
         productRepository.save(product);
