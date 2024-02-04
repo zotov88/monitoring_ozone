@@ -1,5 +1,6 @@
 package monitoring_ozone.service;
 
+import lombok.RequiredArgsConstructor;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.model.Story;
 import monitoring_ozone.repository.StoryRepository;
@@ -9,20 +10,17 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class StoryService {
 
     private final StoryRepository repository;
 
-    public StoryService(StoryRepository repository) {
-        this.repository = repository;
-    }
-
-    public void create(Product product, final int price) {
-        Story story = new Story();
-        story.setProduct(product);
-        story.setPrice(price);
-        story.setDate(LocalDate.now());
-        repository.save(story);
+    public void create(final Product product, final int price) {
+        repository.save(Story.builder()
+                .product(product)
+                .price(price)
+                .date(LocalDate.now())
+                .build());
     }
 
     public List<Story> getStoryList(Long id) {
@@ -56,15 +54,15 @@ public class StoryService {
     }
 
     public Map<LocalDate, Integer> getLast20StoryRecordsMap(Map<LocalDate, Integer> storyRecordsMap, int size) {
-        Map<LocalDate, Integer> last20StoryRecordsMap = new TreeMap<>();
+        Map<LocalDate, Integer> lastNStoriesRecordsMap = new TreeMap<>();
         Map<LocalDate, Integer> reverseMap = new TreeMap<>(Collections.reverseOrder());
         reverseMap.putAll(storyRecordsMap);
         for (LocalDate localDate : reverseMap.keySet()) {
-            last20StoryRecordsMap.put(localDate, reverseMap.get(localDate));
+            lastNStoriesRecordsMap.put(localDate, reverseMap.get(localDate));
             if (--size == 0) {
                 break;
             }
         }
-        return last20StoryRecordsMap;
+        return lastNStoriesRecordsMap;
     }
 }
