@@ -9,10 +9,15 @@ import monitoring_ozone.util.atoi.StringToInteger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static monitoring_ozone.constants.Errors.Message.ROBOT_CHECK;
 
@@ -48,6 +53,12 @@ public class ScannerPageWithFirefox implements TurningProduct {
     }
 
     private static FirefoxDriver getFirefoxDriver(String url) {
+        Map<String, String> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceName", "Apple Iphone 5");
+        Map<String, Object> chromeOptions = new HashMap<>();
+        chromeOptions.put("mobileEmulation", mobileEmulation);
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
         FirefoxOptions options = new FirefoxOptions();
 //        options.addArguments("--headless");
 //        options.addArguments("--width=800");

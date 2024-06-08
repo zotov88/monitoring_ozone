@@ -1,5 +1,6 @@
 package monitoring_ozone.service;
 
+import lombok.RequiredArgsConstructor;
 import monitoring_ozone.constants.MailConstants;
 import monitoring_ozone.model.Role;
 import monitoring_ozone.model.User;
@@ -13,19 +14,12 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository repository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JavaMailSender javaMailSender;
-
-    public UserService(UserRepository repository,
-                       BCryptPasswordEncoder bCryptPasswordEncoder,
-                       JavaMailSender javaMailSender) {
-        this.repository = repository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.javaMailSender = javaMailSender;
-    }
 
     public User getById(final Long id) {
         return repository.getReferenceById(id);

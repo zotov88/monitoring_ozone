@@ -1,6 +1,7 @@
 package monitoring_ozone.MVC.controller;
 
 import jakarta.security.auth.message.AuthException;
+import lombok.RequiredArgsConstructor;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.service.ProductService;
 import monitoring_ozone.service.StoryService;
@@ -13,8 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import static monitoring_ozone.constants.Route.*;
+
 @Controller
-@RequestMapping("/products")
+@RequestMapping(PRODUCT)
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
@@ -22,17 +26,7 @@ public class ProductController {
     private final ScannerPage scannerPage;
     private final StoryService storyService;
 
-    public ProductController(ProductService productService,
-                             UserService userService,
-                             ScannerPage scannerPage,
-                             StoryService storyService) {
-        this.productService = productService;
-        this.userService = userService;
-        this.scannerPage = scannerPage;
-        this.storyService = storyService;
-    }
-
-    @PostMapping("/add")
+    @PostMapping(ADD)
     public String getAndSaveProduct(@ModelAttribute("productForm") Product prod) {
         Product product = scannerPage.scanPage(prod.getUrl());
         if (product == null) {
@@ -42,11 +36,10 @@ public class ProductController {
         product.setMinPrice(product.getPrice());
         productService.create(product);
         storyService.create(product, product.getPrice());
-        return "redirect:/products/all/" +
-                userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+        return "redirect:/products/all/" + getId();
     }
 
-    @GetMapping("/all/{userId}")
+    @GetMapping(ALL + "/{userId}")
     public String allProducts(@PathVariable Long userId,
                               Model model) throws AuthException {
         CheckAccess.checkAccess(userId);
@@ -54,27 +47,26 @@ public class ProductController {
         return "product/allProducts";
     }
 
-    @PostMapping("/all/{userId}")
+    @PostMapping(ALL + "/{userId}")
     public String updateListProducts(@PathVariable Long userId) {
         productService.checkProductsOneUser(productService.getAllByUserIdSortedByName(userId), userId);
         return "redirect:/products/all/{userId}";
     }
 
-    @GetMapping("/all/{userId}/{productId}")
+    @GetMapping(ALL + "/{userId}/{productId}")
     public String updateOneProduct(@PathVariable Long productId,
                                    @PathVariable Long userId) {
         productService.checkProductUser(productId, userId);
         return "redirect:/products/all/{userId}";
     }
 
-    @GetMapping("/delete/{productId}")
+    @GetMapping(DELETE + "/{productId}")
     public String delete(@PathVariable Long productId) {
         productService.delete(productId);
-        return "redirect:/products/all/" +
-                userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+        return "redirect:/products/all/" + getId();
     }
 
-    @GetMapping("/update/{productId}")
+    @GetMapping(UPDATE + "/{productId}")
     public String update(@PathVariable Long productId,
                          Model model) {
         model.addAttribute("productForm", productService.getOne(productId));
@@ -97,8 +89,10 @@ public class ProductController {
         foundProduct.setName(productUpdated.getName());
         foundProduct.setExpectedPrice(expectedPrice == 0 ? null : expectedPrice);
         productService.update(foundProduct);
-        return "redirect:/products/all/" +
-                userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+        return "redirect:/products/all/" + getId();
     }
 
+    private Long getId() {
+        return userService.getByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+    }
 }

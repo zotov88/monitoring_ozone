@@ -7,13 +7,10 @@ import monitoring_ozone.model.Market;
 import monitoring_ozone.model.Product;
 import monitoring_ozone.util.atoi.StringToInteger;
 import monitoring_ozone.util.chromedriver.ChromeDriverBuilder;
-import monitoring_ozone.util.chromedriver.UndetectedChromeDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import static monitoring_ozone.constants.Errors.Message.ROBOT_CHECK;
