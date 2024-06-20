@@ -1,5 +1,6 @@
 package monitoring_ozone.MVC.controller;
 
+import lombok.RequiredArgsConstructor;
 import monitoring_ozone.service.ProductService;
 import monitoring_ozone.service.StoryService;
 import org.springframework.context.annotation.Scope;
@@ -17,17 +18,11 @@ import java.util.Map;
 @Controller
 @Scope("singleton")
 @RequestMapping("/story")
+@RequiredArgsConstructor
 public class StoryController {
 
     private final StoryService storyService;
     private final ProductService productService;
-
-    public StoryController(StoryService storyService,
-                           ProductService productService) {
-        this.storyService = storyService;
-        this.productService = productService;
-
-    }
 
     @GetMapping("/{productId}")
     public String productStory(@PathVariable Long productId,
