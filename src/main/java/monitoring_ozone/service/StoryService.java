@@ -43,13 +43,13 @@ public class StoryService {
 
     public Map<LocalDate, Integer> getStoryRecordsMap(Long productId) {
         Map<LocalDate, Integer> storyRecordsMap = new TreeMap<>();
-        for (Story story : getStoryList(productId)) {
+        getStoryList(productId).forEach(story -> {
             if (!storyRecordsMap.containsKey(story.getDate())) {
                 storyRecordsMap.put(story.getDate(), story.getPrice());
             } else if (story.getPrice() < storyRecordsMap.get(story.getDate())) {
                 storyRecordsMap.put(story.getDate(), story.getPrice());
             }
-        }
+        });
         return storyRecordsMap;
     }
 

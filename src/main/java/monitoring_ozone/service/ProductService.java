@@ -42,9 +42,8 @@ public class ProductService {
     }
 
     public void checkProductsAllUsers() {
-        for (Long id : productRepository.getDistinctByUserId()) {
-            checkProductsOneUser(getAllByUserIdSortedByName(id), id);
-        }
+        productRepository.getDistinctByUserId()
+                .forEach(id -> checkProductsOneUser(getAllByUserIdSortedByName(id), id));
     }
 
     public void checkProductsOneUser(List<Product> products, final Long userId) {
